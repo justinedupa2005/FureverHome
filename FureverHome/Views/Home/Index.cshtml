@@ -1,8 +1,177 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- HERO SECTION -->
+<section class="relative overflow-hidden bg-gradient-to-b from-[#d7efd8] to-[#dfe8dd]">
+    <div class="max-w-7xl mx-auto px-6 pt-16 pb-24">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+
+            <!-- LEFT SIDE -->
+            <div>
+                <!-- Tag -->
+                <div class="inline-flex items-center gap-2 bg-white px-5 py-2 rounded-full shadow-sm mb-8">
+                    <span class="text-sm font-medium text-gray-700">
+                        Start Adopting Now!
+                    </span>
+                    <span class="text-green-600">🐾</span>
+                </div>
+
+                <!-- Heading -->
+                <h1 class="text-5xl lg:text-6xl font-extrabold leading-tight text-[#111111] max-w-xl">
+                    Where every
+                    <span class="text-[#f28a2e]">paw</span><br />
+                    finds its
+                    <span class="text-[#6f9e43]">furever home.</span>
+                </h1>
+
+                <!-- Description -->
+                <p class="mt-6 text-gray-600 max-w-lg leading-7">
+                    Connect loving families with pets that need a forever home.
+                    Browse, list, and give every animal the life they deserve.
+                </p>
+
+                <!-- Buttons -->
+                <div class="mt-8 flex items-center gap-4">
+                    <button class="bg-[#6f9e43] hover:bg-green-700 transition text-white px-7 py-3 rounded-full font-medium shadow">
+                        Get Started
+                    </button>
+                    <button class="bg-white hover:bg-gray-100 transition text-[#6f9e43] px-7 py-3 rounded-full font-medium shadow">
+                        About Us
+                    </button>
+                </div>
+
+                <!-- Illustration -->
+                <div class="relative mt-14">
+                    <div class="flex items-end gap-2">
+                        <div class="w-20 h-20 bg-[#8dd3c7] rounded-t-3xl"></div>
+                        <div class="w-24 h-28 bg-[#ffcf99] rounded-t-3xl"></div>
+                        <div class="w-16 h-16 bg-[#9ed0ff] rounded-t-3xl"></div>
+                    </div>
+                    <div class="absolute left-44 top-2 text-8xl">
+                        🐱
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE (Phone) -->
+            <div class="relative flex justify-center">
+                <div class="absolute w-[420px] h-[420px] bg-green-100 rounded-full blur-3xl opacity-60"></div>
+                <div class="relative z-10">
+                    <!-- Hand -->
+                    <div class="absolute -bottom-10 -right-16 text-[250px] rotate-[-10deg]">
+                        ✋🏻
+                    </div>
+                    <!-- Phone -->
+                    <div class="w-[280px] h-[560px] bg-[#1e1e1e] rounded-[3rem] p-3 shadow-2xl relative">
+                        <div class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-20"></div>
+                        <div class="w-full h-full bg-white rounded-[2.5rem] flex flex-col items-center justify-center">
+                            <div class="w-28 h-28 rounded-full border-4 border-[#6f9e43] flex items-center justify-center text-6xl">
+                                🌍
+                            </div>
+                            <h2 class="mt-6 text-[#6f9e43] font-semibold text-xl">
+                                Furever Home
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROAD DIVIDER -->
+    <div class="w-full h-12 bg-[#444] relative">
+        <div class="absolute top-1/2 left-0 w-full border-t-4 border-dashed border-gray-200"></div>
+    </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="bg-[#2f6f2f] py-10">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center text-white">
+            <div>
+                <h2 class="text-5xl font-extrabold">10</h2>
+                <p class="mt-2 font-semibold text-lg">Pets Listed</p>
+            </div>
+            <div>
+                <h2 class="text-5xl font-extrabold">200+</h2>
+                <p class="mt-2 font-semibold text-lg">Happy Adoptions</p>
+            </div>
+            <div>
+                <h2 class="text-5xl font-extrabold">50+</h2>
+                <p class="mt-2 font-semibold text-lg">Rescue Partners</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS SECTION -->
+<section class="py-24 bg-[#dfe8dd]">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <!-- Label -->
+        <div class="inline-block bg-[#d3e5c8] text-[#6f9e43] px-6 py-2 rounded-full text-sm font-semibold uppercase tracking-wide">
+            Simple Process
+        </div>
+
+        <!-- Heading -->
+        <h2 class="mt-6 text-5xl font-extrabold text-[#111111]">
+            How It Works
+        </h2>
+        <p class="mt-4 text-gray-700 text-lg">
+            Finding your perfect pet companion is easy with Furever Home.
+        </p>
+
+        <!-- Step Cards -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+
+            <!-- Card 1 -->
+            <div class="bg-white rounded-[2rem] p-10 shadow-sm hover:shadow-xl transition">
+                <div class="text-5xl">🔍</div>
+                <div class="w-10 h-10 rounded-full bg-[#7db96f] text-white flex items-center justify-center font-bold mx-auto mt-6">
+                    1
+                </div>
+                <h3 class="mt-6 text-xl font-bold">Browse Listings</h3>
+                <p class="mt-4 text-gray-500 text-sm leading-7">
+                    Explore our curated list of pets available for adoption.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-[2rem] p-10 shadow-sm hover:shadow-xl transition">
+                <div class="text-5xl">💚</div>
+                <div class="w-10 h-10 rounded-full bg-[#7db96f] text-white flex items-center justify-center font-bold mx-auto mt-6">
+                    2
+                </div>
+                <h3 class="mt-6 text-xl font-bold">Find Your Match</h3>
+                <p class="mt-4 text-gray-500 text-sm leading-7">
+                    Read each pet’s story and find the one that melts your heart.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-[2rem] p-10 shadow-sm hover:shadow-xl transition">
+                <div class="text-5xl">📞</div>
+                <div class="w-10 h-10 rounded-full bg-[#7db96f] text-white flex items-center justify-center font-bold mx-auto mt-6">
+                    3
+                </div>
+                <h3 class="mt-6 text-xl font-bold">Contact Us</h3>
+                <p class="mt-4 text-gray-500 text-sm leading-7">
+                    Reach out via the listed contact number to arrange a meet.
+                </p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white rounded-[2rem] p-10 shadow-sm hover:shadow-xl transition">
+                <div class="text-5xl">🏠</div>
+                <div class="w-10 h-10 rounded-full bg-[#7db96f] text-white flex items-center justify-center font-bold mx-auto mt-6">
+                    4
+                </div>
+                <h3 class="mt-6 text-xl font-bold">Bring Them Home</h3>
+                <p class="mt-4 text-gray-500 text-sm leading-7">
+                    Complete adoption and welcome your new family member!
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
