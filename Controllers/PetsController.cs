@@ -20,18 +20,17 @@ namespace FureverHome.Controllers
             return View();
         }
 
-        // GET: /Pets/Contact/5
+        // Instead of looking for a missing view,
+        // just send the user to the Details page
         public IActionResult Contact(int id)
         {
-            ViewBag.PetId = id;
-            return View();
+            return RedirectToAction("Details", new { id });
         }
 
-        // GET: /Pets/Adopt/5
+        // Same here — Details page already has the adopt button
         public IActionResult Adopt(int id)
         {
-            ViewBag.PetId = id;
-            return View();
+            return RedirectToAction("Details", new { id });
         }
     }
 }

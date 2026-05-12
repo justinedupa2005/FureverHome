@@ -12,7 +12,7 @@
         <!-- Header -->
         <div class="pets-header">
             <span class="section-eyebrow">Find Your Match</span>
-            <h1>Pets Looking for a <span class="text-orange">Home</span></h1>
+            <h1>Pets Looking for a <span class="highlight">Home</span></h1>
             <p>Browse all available pets and find your perfect companion. All pets deserve a loving home.</p>
         </div>
 
@@ -27,13 +27,14 @@
         </div>
 
         <!-- Pets Grid -->
-        <div class="pets-listing-grid">
+        <div class="pets-grid">
 
             <!-- Pet Card: Buddy -->
             <div class="pet-listing-card" data-type="dog">
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐶</div>
                     <span class="pet-status-badge available">Available</span>
+                    <button class="pet-save-btn" title="Save to favorites">❤</button>
                 </div>
                 <div class="pet-listing-body">
                     <div class="pet-listing-name">Buddy</div>
@@ -45,7 +46,6 @@
                     <div class="pet-location">📍 Guadalupe, Cebu City</div>
                     <div class="pet-listing-actions">
                         <a href="/Pets/Details/1" class="btn btn-green btn-sm">Learn More</a>
-                        <a href="/Pets/Details/1" class="btn btn-outline-green btn-sm">❤ Save</a>
                     </div>
                 </div>
             </div>
@@ -55,6 +55,7 @@
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐱</div>
                     <span class="pet-status-badge available">Available</span>
+                    <button class="pet-save-btn" title="Save to favorites">❤</button>
                 </div>
                 <div class="pet-listing-body">
                     <div class="pet-listing-name">Mochi</div>
@@ -66,7 +67,6 @@
                     <div class="pet-location">📍 Talamban, Cebu City</div>
                     <div class="pet-listing-actions">
                         <a href="/Pets/Details/2" class="btn btn-green btn-sm">Learn More</a>
-                        <a href="/Pets/Details/2" class="btn btn-outline-green btn-sm">❤ Save</a>
                     </div>
                 </div>
             </div>
@@ -76,6 +76,7 @@
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐰</div>
                     <span class="pet-status-badge pending">Pending</span>
+                    <button class="pet-save-btn" title="Save to favorites">❤</button>
                 </div>
                 <div class="pet-listing-body">
                     <div class="pet-listing-name">Kiwi</div>
@@ -87,7 +88,6 @@
                     <div class="pet-location">📍 Mandaue, Cebu</div>
                     <div class="pet-listing-actions">
                         <a href="/Pets/Details/3" class="btn btn-green btn-sm">Learn More</a>
-                        <a href="/Pets/Details/3" class="btn btn-outline-green btn-sm">❤ Save</a>
                     </div>
                 </div>
             </div>
@@ -97,6 +97,7 @@
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐕</div>
                     <span class="pet-status-badge available">Available</span>
+                    <button class="pet-save-btn" title="Save to favorites">❤</button>
                 </div>
                 <div class="pet-listing-body">
                     <div class="pet-listing-name">Nala</div>
@@ -108,7 +109,6 @@
                     <div class="pet-location">📍 Talisay, Cebu</div>
                     <div class="pet-listing-actions">
                         <a href="/Pets/Details/4" class="btn btn-green btn-sm">Learn More</a>
-                        <a href="/Pets/Details/4" class="btn btn-outline-green btn-sm">❤ Save</a>
                     </div>
                 </div>
             </div>
@@ -118,6 +118,7 @@
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐈‍⬛</div>
                     <span class="pet-status-badge available">Available</span>
+                    <button class="pet-save-btn" title="Save to favorites">❤</button>
                 </div>
                 <div class="pet-listing-body">
                     <div class="pet-listing-name">Luna</div>
@@ -129,7 +130,6 @@
                     <div class="pet-location">📍 Lahug, Cebu City</div>
                     <div class="pet-listing-actions">
                         <a href="/Pets/Details/5" class="btn btn-green btn-sm">Learn More</a>
-                        <a href="/Pets/Details/5" class="btn btn-outline-green btn-sm">❤ Save</a>
                     </div>
                 </div>
             </div>
@@ -139,6 +139,7 @@
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🦮</div>
                     <span class="pet-status-badge adopted">Adopted</span>
+                    <button class="pet-save-btn" title="Save to favorites">❤</button>
                 </div>
                 <div class="pet-listing-body">
                     <div class="pet-listing-name">Max</div>
@@ -150,24 +151,44 @@
                     <div class="pet-location">📍 Banawa, Cebu City</div>
                     <div class="pet-listing-actions">
                         <a href="/Pets/Details/6" class="btn btn-green btn-sm">Learn More</a>
-                        <a href="/Pets/Details/6" class="btn btn-outline-green btn-sm">❤ Save</a>
                     </div>
                 </div>
             </div>
 
-        </div><!-- /.pets-listing-grid -->
+        </div><!-- /.pets-grid -->
+
     </div><!-- /.container -->
 </div>
 
 @section Scripts {
 <script>
+    // Save toggle functionality
+    document.querySelectorAll('.pet-save-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.toggle('active');
+            
+            // Optional: Add a little animation or toast
+            if (this.classList.contains('active')) {
+                this.innerHTML = '❤️';
+            } else {
+                this.innerHTML = '❤';
+            }
+        });
+    });
+
     // Filter functionality
     document.querySelectorAll('.filter-pill').forEach(pill => {
         pill.addEventListener('click', function() {
+            // Remove active class from all pills
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+            // Add active class to clicked pill
+            this.classList.add('active');
+
             const filter = this.dataset.filter;
             document.querySelectorAll('.pet-listing-card').forEach(card => {
                 if (filter === 'all' || card.dataset.type === filter) {
-                    card.style.display = '';
+                    card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
                 }

@@ -18,25 +18,44 @@
                 <span class="brand-icon">🐾</span>
                 <span class="brand-text">Furever Home</span>
             </a>
-            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="/" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">Home</a></li>     
-                <li><a href="/Home/About" class="nav-link">About</a></li>
-                <li><a href="/Pets" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Pets" ? "active" : "")">Pets</a></li> 
-                <li><a href="/Home/Contact" class="nav-link">Contact</a></li>
+            
+            <ul class="nav-links middle-nav">
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <li><a href="/Dashboard" class="nav-link">Dashboard</a></li>
-                    <li><a href="/Account/Logout" class="btn btn-outline-green nav-btn">Logout</a></li>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/Pets" class="nav-link">Browse Pets</a></li>
+                    <li><a href="/Home/AdoptionProcess" class="nav-link">Adoption Process</a></li>
+                    <li><a href="/Dashboard/Create" class="nav-link">Add Pet Listing</a></li>
+                    <li><a href="/Dashboard" class="nav-link">My Listings</a></li>
                 }
                 else
                 {
-                    <li><a href="/Account/Login" class="nav-link">Login</a></li>
-                    <li><a href="/Account/Register" class="btn btn-orange nav-btn">Sign Up</a></li>
+                    <li><a href="/" class="nav-link">Home</a></li>     
+                    <li><a href="/Home/About" class="nav-link">About</a></li>
+                    <li><a href="/Pets" class="nav-link">Pets</a></li> 
+                    <li><a href="/Home/Contact" class="nav-link">Contact</a></li>
                 }
             </ul>
+
+            <div class="nav-actions">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a href="/Profile" class="user-profile" title="View Profile">
+                        <div class="user-avatar">R</div>
+                        <span class="user-name">Rain</span>
+                    </a>
+                    <a href="/Account/Logout" class="btn btn-outline-green btn-sm">Logout</a>
+                }
+                else
+                {
+                    <a href="/Account/Login" class="btn btn-outline-green btn-sm">Login</a>
+                    <a href="/Account/Register" class="btn btn-orange btn-sm">Sign Up</a>
+                }
+            </div>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 

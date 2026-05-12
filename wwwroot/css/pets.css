@@ -29,28 +29,31 @@
 .filter-bar {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 40px;
     justify-content: center;
+    padding: 0 10px;
 }
 
 .filter-pill {
-    padding: 9px 22px;
+    padding: 10px 24px;
     border-radius: var(--radius-pill);
     border: 2px solid var(--green-light);
     background: white;
     color: var(--text-muted);
     font-family: 'Poppins', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     transition: all var(--transition);
+    white-space: nowrap;
 }
 
     .filter-pill:hover {
         border-color: var(--green-primary);
         color: var(--green-primary);
+        background: var(--green-pale);
     }
 
     .filter-pill.active {
@@ -61,137 +64,149 @@
     }
 
 /* --- PETS GRID --- */
-.pets-listing-grid {
+.pets-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* More compact grid */
+    gap: 1.25rem;
+    padding-bottom: 40px;
 }
-
 .pet-listing-card {
     background: white;
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
+    border-radius: 20px;
+    border: 1px solid rgba(47, 106, 53, 0.06);
     overflow: hidden;
-    transition: all var(--transition);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
+    height: 100%;
+    position: relative;
 }
-
-    .pet-listing-card:hover {
-        transform: translateY(-6px);
-        box-shadow: var(--shadow-hover);
-    }
-
+.pet-listing-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 30px rgba(47, 106, 53, 0.1);
+    border-color: var(--green-light);
+}
 .pet-img-wrap {
     position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-    background: var(--green-light);
-}
-
-.pet-img-placeholder {
-    width: 100%;
-    height: 100%;
+    aspect-ratio: 1/1; /* Square aspect ratio for more compactness */
+    background: linear-gradient(135deg, var(--green-pale) 0%, var(--green-light) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 5rem;
-    background: linear-gradient(135deg, var(--green-light), var(--green-pale));
+    overflow: hidden;
 }
-
+.pet-img-placeholder { 
+    font-size: 3.5rem; 
+    transition: transform 0.5s ease;
+}
+.pet-listing-card:hover .pet-img-placeholder {
+    transform: scale(1.2) rotate(5deg);
+}
 .pet-img-wrap img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--transition);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .pet-listing-card:hover .pet-img-wrap img {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
-
 .pet-status-badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    padding: 4px 12px;
-    border-radius: var(--radius-pill);
-    font-size: 0.75rem;
-    font-weight: 700;
+    top: 12px; left: 12px; /* Moved to top-left */
+    font-size: 0.62rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(4px);
 }
+.pet-status-badge.available { background: rgba(16, 185, 129, 0.9); color: white; }
+.pet-status-badge.pending   { background: rgba(245, 158, 11, 0.9); color: white; }
+.pet-status-badge.adopted   { background: rgba(107, 114, 128, 0.9); color: white; }
 
-    .pet-status-badge.available {
-        background: var(--green-primary);
-        color: white;
-    }
-
-    .pet-status-badge.pending {
-        background: var(--orange-accent);
-        color: white;
-    }
-
-    .pet-status-badge.adopted {
-        background: #888;
-        color: white;
-    }
-
-.pet-listing-body {
-    padding: 20px;
+.pet-save-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 36px;
+    height: 36px;
+    background: white;
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
-    flex: 1;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border: none;
+}
+.pet-save-btn:hover {
+    background: var(--orange-accent);
+    color: white;
+    transform: scale(1.1);
+}
+.pet-save-btn.active {
+    background: var(--orange-accent);
+    color: white;
 }
 
-.pet-listing-name {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 12px;
+.pet-listing-body { 
+    padding: 1rem; 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px;
 }
-
-.pet-listing-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 14px;
+.pet-listing-name { 
+    font-size: 1.15rem; 
+    font-weight: 800; 
+    color: var(--text-dark); 
+    margin: 0;
 }
-
+.pet-listing-meta { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 6px; 
+}
 .meta-chip {
+    font-size: 0.68rem; 
+    font-weight: 600;
+    padding: 4px 10px; 
+    border-radius: 8px;
+    background: var(--green-pale); 
+    color: var(--green-primary);
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 4px 10px;
-    border-radius: var(--radius-pill);
-    background: var(--green-light);
-    color: var(--green-primary);
-    font-size: 0.78rem;
-    font-weight: 600;
+    border: 1px solid rgba(47, 106, 53, 0.1);
 }
-
-    .meta-chip .emoji {
-        font-size: 0.85rem;
-    }
-
-.pet-location {
+.pet-location { 
+    font-size: 0.78rem; 
+    color: var(--text-muted); 
+    display: flex; 
+    align-items: center; 
+    gap: 4px; 
+    font-weight: 500;
+}
+.pet-listing-actions { 
+    display: flex; 
+    gap: 8px; 
+    margin-top: auto; 
+    padding-top: 4px;
+}
+.pet-listing-actions .btn { 
+    flex: 1; 
+    padding: 8px 12px;
     font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    border-radius: 12px;
 }
 
-.pet-listing-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: auto;
-}
-
-    .pet-listing-actions .btn {
-        flex: 1;
-        padding: 10px 12px;
-        font-size: 0.83rem;
-    }
 
 /* --- PET DETAILS PAGE --- */
 .pet-details-page {

@@ -86,6 +86,12 @@
     font-size: 3.5rem;
 }
 
+.mascot-bg img {
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+}
+
 .auth-title {
     font-size: 1.7rem;
     font-weight: 800;

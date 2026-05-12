@@ -10,7 +10,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles();    // ← THIS is the key line, serves wwwroot/
 app.UseRouting();
 app.UseAuthorization();
 

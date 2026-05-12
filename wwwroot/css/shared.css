@@ -181,22 +181,22 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
-    gap: 32px;
+    height: 80px;
+    gap: 20px;
 }
 
 .navbar-brand {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: 700;
-    font-size: 1.15rem;
+    font-weight: 800;
+    font-size: 1.3rem;
     color: var(--green-dark);
     flex-shrink: 0;
 }
 
 .brand-icon {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 .brand-text {
@@ -206,26 +206,59 @@ h3 {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
+    gap: 4px;
+}
+
+.middle-nav {
+    flex: 1;
+    justify-content: center;
 }
 
 .nav-link {
-    padding: 8px 14px;
+    padding: 10px 16px;
     border-radius: var(--radius-pill);
-    font-size: 0.92rem;
-    font-weight: 500;
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--text-dark);
     transition: all var(--transition);
 }
 
     .nav-link:hover, .nav-link.active {
-        background: var(--green-light);
+        background: var(--green-pale);
         color: var(--green-primary);
     }
 
-.nav-btn {
-    margin-left: 4px;
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 8px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--orange-accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-dark);
 }
 
 .hamburger {
