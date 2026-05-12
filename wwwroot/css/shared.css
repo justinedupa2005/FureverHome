@@ -25,6 +25,40 @@
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* --- TOAST NOTIFICATIONS --- */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.toast-message {
+    padding: 15px 25px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-success {
+    background-color: #28a745;
+}
+
+.toast-error {
+    background-color: #dc3545;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
 /* --- RESET & BASE --- */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -437,6 +471,22 @@ select.form-control {
 /* --- UTILS --- */
 .text-center {
     text-align: center;
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 5px;
+    display: block;
+}
+
+.input-validation-error {
+    border-color: #dc3545 !important;
+}
+
+.input-validation-error:focus {
+    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.1) !important;
 }
 
 .text-green {

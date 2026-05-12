@@ -1,65 +1,119 @@
+using FureverHome.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FureverHome.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
         // GET: /Account/Login
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(string Email, string Password, bool RememberMe)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
-            // TODO: Add authentication logic
-            // For now, redirect to dashboard on success
-            if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Dashboard");
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return Json(new { success = false, errors = new Dictionary<string, string> { { "Email", "This email is not registered." } } });
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    return Json(new { success = true, message = "Welcome back, " + user.FirstName + "!", redirectUrl = Url.Action("Index", "Home") });
+                }
+                
+                return Json(new { success = false, errors = new Dictionary<string, string> { { "Password", "Incorrect password." } } });
             }
-            ModelState.AddModelError("", "Invalid email or password.");
-            return View();
+            
+            var modelErrors = ModelState.ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).FirstOrDefault() ?? ""
+            );
+            return Json(new { success = false, errors = modelErrors });
         }
 
         // GET: /Account/Register
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(string FirstName, string LastName, string Email,
-                                      string PhoneNumber, string Password, string ConfirmPassword)
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
-            // TODO: Add registration logic
-            if (Password != ConfirmPassword)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
-                return View();
+                var user = new ApplicationUser 
+                { 
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return Json(new { success = true, message = "Account created successfully! Please login.", redirectUrl = Url.Action("Login", "Account") });
+                }
+                
+                var error = result.Errors.FirstOrDefault();
+                if (error != null)
+                {
+                    // Map common identity errors to fields
+                    if (error.Code.Contains("Email") || error.Code.Contains("UserName"))
+                        return Json(new { success = false, errors = new Dictionary<string, string> { { "Email", error.Description } } });
+                    if (error.Code.Contains("Password"))
+                        return Json(new { success = false, errors = new Dictionary<string, string> { { "Password", error.Description } } });
+                    
+                    return Json(new { success = false, message = error.Description });
+                }
             }
-            return RedirectToAction("Login");
+            
+            var modelErrors = ModelState.ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).FirstOrDefault() ?? ""
+            );
+            return Json(new { success = false, errors = modelErrors });
         }
 
-        // GET: /Account/Logout
-        public IActionResult Logout()
+        // POST: /Account/Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
         {
-            // TODO: Add sign-out logic
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-        }
-
-        // GET: /Account/ForgotPassword
-        [HttpGet]
-        public IActionResult ForgotPassword()
-        {
-            return View();
         }
     }
 }

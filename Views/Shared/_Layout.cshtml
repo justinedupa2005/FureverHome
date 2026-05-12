@@ -1,3 +1,7 @@
+@using FureverHome.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +15,10 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
+    @{
+        var currentUser = User.Identity?.IsAuthenticated == true ? await UserManager.GetUserAsync(User) : null;
+        var displayName = currentUser?.FirstName ?? User.Identity?.Name ?? "User";
+    }
 
     <nav class="navbar" id="mainNavbar">
         <div class="container navbar-inner">
@@ -31,9 +39,8 @@
                 else
                 {
                     <li><a href="/" class="nav-link">Home</a></li>     
-                    <li><a href="/Home/About" class="nav-link">About</a></li>
-                    <li><a href="/Pets" class="nav-link">Pets</a></li> 
                     <li><a href="/Home/Contact" class="nav-link">Contact</a></li>
+                    <li><a href="/Home/About" class="nav-link">About</a></li>
                 }
             </ul>
 
@@ -41,10 +48,12 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <a href="/Profile" class="user-profile" title="View Profile">
-                        <div class="user-avatar">R</div>
-                        <span class="user-name">Rain</span>
+                        <div class="user-avatar">@displayName[0].ToString().ToUpper()</div>
+                        <span class="user-name">@displayName</span>
                     </a>
-                    <a href="/Account/Logout" class="btn btn-outline-green btn-sm">Logout</a>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-outline-green btn-sm">Logout</button>
+                    </form>
                 }
                 else
                 {
@@ -69,7 +78,7 @@
                 <span class="brand-icon">🐾</span>
                 <span class="brand-text">Furever Home</span>
             </div>
-            <p class="footer-tagline">2023 Furever Home. Made with love for every paw.</p>
+            <p class="footer-tagline">@DateTime.Now.Year Furever Home. Made with love for every paw.</p>
             <ul class="footer-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/Home/About">About</a></li>
@@ -78,7 +87,34 @@
         </div>
     </footer>
 
+    <div class="toast-container">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="toast-message toast-success">
+                <span>✅</span> @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="toast-message toast-error">
+                <span>❌</span> @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/shared.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Auto-hide toast messages after 5 seconds
+            setTimeout(function () {
+                $('.toast-message').fadeOut('slow', function() {
+                    $(this).remove();
+                });
+            }, 5000);
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

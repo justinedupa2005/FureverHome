@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FureverHome.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         // GET: /Profile

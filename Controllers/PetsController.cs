@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FureverHome.Controllers
 {
+    [Authorize]
     public class PetsController : Controller
     {
         // GET: /Pets

@@ -1,3 +1,4 @@
+@model LoginViewModel
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,31 +20,31 @@
         <h1 class="auth-title">Welcome Back!</h1>
         <p class="auth-subtitle">Login to find your furever companion 🐾</p>
 
-        <form asp-action="Login" asp-controller="Account" method="post">
-            @Html.AntiForgeryToken()
+        <form id="loginForm" asp-action="Login" asp-controller="Account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label class="form-label" for="email">Email Address</label>
+                <label asp-for="Email" class="form-label"></label>
                 <div class="input-icon-wrap">
-                    <input type="email" id="email" name="Email" class="form-control"
-                           placeholder="you@example.com" required />
+                    <input asp-for="Email" class="form-control" placeholder="you@example.com" />
                     <span class="input-icon">✉️</span>
                 </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="password">Password</label>
+                <label asp-for="Password" class="form-label"></label>
                 <div class="input-icon-wrap">
-                    <input type="password" id="password" name="Password" class="form-control"
-                           placeholder="••••••••" required />
-                    <span class="input-icon" data-toggle-password="password" style="cursor:pointer;">👁️</span>
+                    <input asp-for="Password" class="form-control" placeholder="••••••••" />
+                    <span class="input-icon" data-toggle-password="Password" style="cursor:pointer;">👁️</span>
                 </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
             <div class="auth-extras">
                 <label class="checkbox-wrap">
-                    <input type="checkbox" name="RememberMe" />
-                    <span>Remember me</span>
+                    <input asp-for="RememberMe" />
+                    <span>@Html.DisplayNameFor(m => m.RememberMe)</span>
                 </label>
                 <a href="/Account/ForgotPassword" class="forgot-link">Forgot Password?</a>
             </div>
@@ -56,3 +57,8 @@
         </p>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/auth-ajax.js"></script>
+}
