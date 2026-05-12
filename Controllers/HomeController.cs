@@ -1,6 +1,4 @@
-using FureverHome.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace FureverHome.Controllers
 {
@@ -11,15 +9,22 @@ namespace FureverHome.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
+            ViewData["Title"] = "About Us";
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewData["Title"] = "Contact Us";
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }

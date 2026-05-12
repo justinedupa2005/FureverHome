@@ -1,0 +1,125 @@
+@{
+    ViewData["Title"] = "List a Pet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/dashboard.css" />
+}
+
+<div class="form-page">
+    <div class="container">
+        <div class="form-card">
+
+            <div class="section-eyebrow" style="text-align:center; margin-bottom:8px;">ADD A PET</div>
+            <h1 class="form-page-title">List a <span class="highlight">Pet</span> for Adoption</h1>
+            <p class="form-page-subtitle">Fill in the details to help your pet find their forever home.</p>
+
+            <form asp-action="Create" asp-controller="Dashboard" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <!-- Pet Name -->
+                <div class="form-group">
+                    <label class="form-label">Pet Name *</label>
+                    <input type="text" name="Name" class="form-control" placeholder="e.g., Buddy" required />
+                </div>
+
+                <div class="form-two-col">
+                    <!-- Pet Type -->
+                    <div class="form-group">
+                        <label class="form-label">Type *</label>
+                        <select name="Type" class="form-control" required>
+                            <option value="">Select type</option>
+                            <option value="dog">🐕 Dog</option>
+                            <option value="cat">🐈 Cat</option>
+                            <option value="rabbit">🐇 Rabbit</option>
+                            <option value="bird">🐦 Bird</option>
+                            <option value="other">🐾 Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Breed -->
+                    <div class="form-group">
+                        <label class="form-label">Breed *</label>
+                        <input type="text" name="Breed" class="form-control" placeholder="e.g., Labrador" required />
+                    </div>
+                </div>
+
+                <div class="form-two-col">
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label class="form-label">Age *</label>
+                        <input type="text" name="Age" class="form-control" placeholder="e.g., 2 years" required />
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label class="form-label">Gender *</label>
+                        <select name="Gender" class="form-control" required>
+                            <option value="">Select gender</option>
+                            <option value="male">♂ Male</option>
+                            <option value="female">♀ Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Contact Number -->
+                <div class="form-group">
+                    <label class="form-label">Contact Number *</label>
+                    <input type="tel" name="ContactNumber" class="form-control"
+                           placeholder="+63 9XX XXX XXXX" required />
+                </div>
+
+                <!-- Vaccinated -->
+                <div class="form-group">
+                    <label class="form-label">Vaccinated?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="Vaccinated" value="yes" /> Yes
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="Vaccinated" value="no" /> No
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="Vaccinated" value="unknown" /> Unknown
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label class="form-label">About this Pet</label>
+                    <textarea name="Description" class="form-control"
+                              rows="4"
+                              placeholder="Tell us about this pet's personality, history, and why they'd make a great companion..."
+                              style="resize:vertical; min-height:100px;"></textarea>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label class="form-label">Pet Photo</label>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📸</div>
+                        <h4>Drag & Drop your photo here</h4>
+                        <p>Supports JPG, PNG, WebP (max 5MB)</p>
+                        <button type="button" class="btn btn-outline-green btn-sm"
+                                onclick="document.getElementById('petPhoto').click()">
+                            Select Photo
+                        </button>
+                        <input type="file" id="petPhoto" name="Photo" accept="image/*"
+                               data-upload-preview="photoPreview" />
+                    </div>
+                    <img id="photoPreview" src="" alt="Preview"
+                         style="display:none; width:100%; border-radius:16px; margin-top:8px; max-height:240px; object-fit:cover;" />
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions" style="justify-content:center; padding-top:16px;">
+                    <a href="/Dashboard" class="btn btn-outline-green">Cancel</a>
+                    <button type="submit" class="btn btn-green btn-lg">Post Listing 🐾</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

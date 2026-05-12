@@ -1,0 +1,363 @@
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/home.css" />
+}
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-inner">
+            <!-- Left: Content -->
+            <div class="hero-content">
+                <div class="hero-eyebrow">
+                    <span class="dot"></span>
+                    Find your perfect companion
+                </div>
+
+                <h1 class="hero-title">
+                    Where every <span class="paw-word">paw</span><br>
+                    finds its <span class="highlight-line">furever home.</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Connect loving families with pets in need. Browse hundreds of adoptable animals and give a pet a second chance.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/Pets" class="btn btn-green btn-lg">Browse Pets 🐾</a>
+                    <a href="/Account/Register" class="btn btn-white btn-lg">Get Started</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-counter data-target="10" data-suffix="+">10+</span>
+                        <span class="stat-label">Pets Listed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-counter data-target="200" data-suffix="+">200+</span>
+                        <span class="stat-label">Happy Adoptions</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-counter data-target="50" data-suffix="+">50+</span>
+                        <span class="stat-label">Rescue Partners</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Visual -->
+            <div class="hero-visual">
+                <span class="floating-paw-1">🐾</span>
+                <span class="floating-paw-2">🐾</span>
+                <span class="floating-paw-3">🐾</span>
+
+                <div class="hero-phone-wrap">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="phone-logo">🐾</div>
+                            <h4>Furever Home</h4>
+                            <p>Find your perfect pet companion</p>
+                            <div class="phone-pet-row">
+                                <div class="phone-pet-mini">
+                                    <div class="emoji">🐱</div>
+                                    <p>Mochi, 2yr</p>
+                                </div>
+                                <div class="phone-pet-mini">
+                                    <div class="emoji">🐶</div>
+                                    <p>Buddy, 3yr</p>
+                                </div>
+                                <div class="phone-pet-mini">
+                                    <div class="emoji">🐰</div>
+                                    <p>Kiwi, 1yr</p>
+                                </div>
+                                <div class="phone-pet-mini">
+                                    <div class="emoji">🐹</div>
+                                    <p>Nala, 2yr</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mascot cat (SVG illustration placeholder) -->
+                <div class="mascot-cat" aria-hidden="true">
+                    <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Cat body -->
+                        <ellipse cx="80" cy="130" rx="50" ry="55" fill="#2f6a35"/>
+                        <!-- Cat head -->
+                        <circle cx="80" cy="75" r="44" fill="#ff9446"/>
+                        <!-- Ears -->
+                        <polygon points="45,45 35,10 65,38" fill="#ff9446"/>
+                        <polygon points="115,45 125,10 95,38" fill="#ff9446"/>
+                        <polygon points="48,42 40,18 63,38" fill="#ffb87a"/>
+                        <polygon points="112,42 120,18 97,38" fill="#ffb87a"/>
+                        <!-- Eyes -->
+                        <circle cx="65" cy="72" r="8" fill="white"/>
+                        <circle cx="95" cy="72" r="8" fill="white"/>
+                        <circle cx="67" cy="72" r="5" fill="#2f6a35"/>
+                        <circle cx="97" cy="72" r="5" fill="#2f6a35"/>
+                        <circle cx="68" cy="71" r="2" fill="white"/>
+                        <circle cx="98" cy="71" r="2" fill="white"/>
+                        <!-- Nose -->
+                        <ellipse cx="80" cy="88" rx="5" ry="3" fill="#ff6b6b"/>
+                        <!-- Mouth -->
+                        <path d="M75 91 Q80 96 85 91" stroke="#d44" stroke-width="2" fill="none"/>
+                        <!-- Whiskers -->
+                        <line x1="30" y1="85" x2="68" y2="88" stroke="white" stroke-width="1.5" opacity="0.8"/>
+                        <line x1="30" y1="90" x2="68" y2="92" stroke="white" stroke-width="1.5" opacity="0.8"/>
+                        <line x1="92" y1="88" x2="130" y2="85" stroke="white" stroke-width="1.5" opacity="0.8"/>
+                        <line x1="92" y1="92" x2="130" y2="90" stroke="white" stroke-width="1.5" opacity="0.8"/>
+                        <!-- T-shirt -->
+                        <path d="M35 130 Q80 110 125 130 L125 185 Q80 195 35 185 Z" fill="#2f6a35"/>
+                        <!-- Arms -->
+                        <ellipse cx="25" cy="148" rx="16" ry="28" fill="#ff9446" transform="rotate(-10 25 148)"/>
+                        <ellipse cx="135" cy="148" rx="16" ry="28" fill="#ff9446" transform="rotate(10 135 148)"/>
+                        <!-- Paws -->
+                        <circle cx="18" cy="172" r="10" fill="#ff9446"/>
+                        <circle cx="142" cy="172" r="10" fill="#ff9446"/>
+                        <!-- Tail -->
+                        <path d="M130 185 Q165 165 155 140 Q150 125 140 135" stroke="#ff9446" stroke-width="12" fill="none" stroke-linecap="round"/>   
+                        <!-- Wave hand detail -->
+                        <circle cx="142" cy="162" r="7" fill="#ffb87a"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scene"></div>
+</section>
+
+<!-- ===== STATS BANNER ===== -->
+<section class="stats-banner">
+    <div class="container">
+        <div class="stats-grid">
+            <div>
+                <div class="stat-number" data-counter data-target="10" data-suffix="+">10+</div>
+                <div class="stat-label">Pets Listed</div>
+            </div>
+            <div>
+                <div class="stat-number" data-counter data-target="200" data-suffix="+">200+</div>
+                <div class="stat-label">Happy Adoptions</div>
+            </div>
+            <div>
+                <div class="stat-number" data-counter data-target="50" data-suffix="+">50+</div>
+                <div class="stat-label">Rescue Partners</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-it-works">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">How It Works</span>
+            <h2 class="section-title">Finding your perfect pet companion<br>is easy with <span class="highlight">Furever Home.</span></h2>
+        </div>
+
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="how-step-icon">🔍</div>
+                <h3>Browse Listings</h3>
+                <p>Explore hundreds of pets looking for their forever home using our smart filters.</p>
+            </div>
+            <div class="how-step">
+                <div class="how-step-icon">💚</div>
+                <h3>Find Your Match</h3>
+                <p>Browse and find the pet that perfectly matches your lifestyle and personality.</p>
+            </div>
+            <div class="how-step">
+                <div class="how-step-icon">📞</div>
+                <h3>Contact Us</h3>
+                <p>Get in touch with the pet owner or rescue partner to learn more about the pet.</p>
+            </div>
+            <div class="how-step">
+                <div class="how-step-icon">🏠</div>
+                <h3>Bring Them Home</h3>
+                <p>Complete the adoption process and welcome your new family member home.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURED PETS ===== -->
+<section class="featured-pets">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">Featured Pets</span>
+            <h2 class="section-title">Pets Looking for a <span class="highlight">Home</span></h2>
+            <p class="section-subtitle">These adorable pets are waiting for someone just like you to give them a loving home.</p>
+        </div>
+
+        <div class="pets-grid">
+            <!-- Pet Card 1 -->
+            <div class="pet-listing-card">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐶</div>
+                    <span class="pet-status-badge available">Available</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Buddy</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐕 Labrador</span>
+                        <span class="meta-chip">📅 3 yrs</span>
+                        <span class="meta-chip">♂ Male</span>
+                    </div>
+                    <div class="pet-location">📍 Guadalupe, Cebu City</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/1" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/1" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Card 2 -->
+            <div class="pet-listing-card">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐱</div>
+                    <span class="pet-status-badge available">Available</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Mochi</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐈 Shorthair</span>
+                        <span class="meta-chip">📅 2 yrs</span>
+                        <span class="meta-chip">♀ Female</span>
+                    </div>
+                    <div class="pet-location">📍 Talamban, Cebu City</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/2" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/2" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Card 3 -->
+            <div class="pet-listing-card">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐰</div>
+                    <span class="pet-status-badge pending">Pending</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Kiwi</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐇 Rabbit</span>
+                        <span class="meta-chip">📅 1 yr</span>
+                        <span class="meta-chip">♂ Male</span>
+                    </div>
+                    <div class="pet-location">📍 Mandaue, Cebu</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/3" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/3" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-all-wrap">
+            <a href="/Pets" class="btn btn-green btn-lg">View All Pets 🐾</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ADOPTION PROCESS ===== -->
+<section class="adoption-process">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">Step by Step</span>
+            <h2 class="section-title" style="color:white;">The <span class="highlight" style="color:var(--orange-accent)">Adoption Process</span></h2> 
+            <p class="section-subtitle" style="color:rgba(255,255,255,0.65);">Follow these simple steps to welcome a furry friend into your home.</p>  
+        </div>
+
+        <div class="process-grid">
+            <div class="process-card">
+                <span class="process-card-icon">📋</span>
+                <h3>Create an Account</h3>
+                <p>Sign up for free and create your adopter profile so we can match you with the perfect pet.</p>
+            </div>
+            <div class="process-card">
+                <span class="process-card-icon">🔎</span>
+                <h3>Browse Listings</h3>
+                <p>Explore our curated listings of dogs, cats, and small animals waiting for a loving home.</p>
+            </div>
+            <div class="process-card">
+                <span class="process-card-icon">💛</span>
+                <h3>Fall In Love</h3>
+                <p>Find the pet that speaks to your heart and save your favorites to revisit anytime.</p>
+            </div>
+            <div class="process-card">
+                <span class="process-card-icon">📞</span>
+                <h3>Contact My Lister</h3>
+                <p>Connect directly with the rescue partner or owner to schedule a meet-and-greet.</p>
+            </div>
+            <div class="process-card">
+                <span class="process-card-icon">🐾</span>
+                <h3>Meet & Greet</h3>
+                <p>Visit your chosen pet and make sure it's the right match for your family and home.</p>
+            </div>
+            <div class="process-card">
+                <span class="process-card-icon">🏡</span>
+                <h3>Welcome New Home</h3>
+                <p>Complete the adoption paperwork and bring your new best friend home forever.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ABOUT SECTION ===== -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-inner">
+            <div class="about-img-wrap">
+                <div class="about-img-placeholder">🤗</div>
+                <div class="about-img-badge">🐾 Since 2020</div>
+            </div>
+
+            <div class="about-content">
+                <div class="section-header">
+                    <span class="section-eyebrow">About Furever Home</span>
+                    <h2 class="section-title">About <span class="highlight">Furever Home</span></h2>
+                </div>
+                <p class="about-text">
+                    Furever Home started with a simple mission: to connect homeless pets with loving families. We believe every animal deserves a safe, caring home where they can thrive and be loved unconditionally.
+                </p>
+                <p class="about-text">
+                    Our platform makes it easy for individuals and rescue organizations to post adoptable pets, and for families to find their perfect companion. Together, we're building a community of pet lovers committed to ending animal homelessness.
+                </p>
+                <a href="/Home/About" class="btn btn-green btn-lg">Get Our Mission</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-eyebrow">Get In Touch</span>
+            <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
+            <p class="section-subtitle">Have questions? We'd love to hear from you. Send us a message!</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-card-icon">📞</div>
+                <h3>Call Us</h3>
+                <p>+63 947 123 4567<br>+63 917 987 6543</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon">✉️</div>
+                <h3>Email Us</h3>
+                <p>hello@fureverhome.ph<br>support@fureverhome.ph</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon">📍</div>
+                <h3>Find Us</h3>
+                <p>123 Furever Street<br>Cebu City, Philippines</p>
+            </div>
+        </div>
+    </div>
+</section>

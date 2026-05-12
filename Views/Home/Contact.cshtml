@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "Contact Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/home.css" />
+}
+
+<!-- Contact Hero -->
+<section style="background:var(--green-pale); padding:80px 0;">
+    <div class="container" style="text-align:center;">
+        <span class="section-eyebrow">Get In Touch</span>
+        <h1 style="margin-bottom:20px;">Contact <span class="text-orange">Us</span></h1>
+        <p style="max-width:580px; margin:0 auto; color:var(--text-muted); font-size:1.05rem; line-height:1.8;">
+            Have questions about adoption, pet listing, or anything else? We'd love to hear from you! Get in touch with our team.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Form & Cards -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-card-icon">📞</div>
+                <h3>Call Us</h3>
+                <p>
+                    Main: +63 947 123 4567<br>
+                    Support: +63 917 987 6543<br>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Mon-Fri, 9AM-6PM</span>
+                </p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon">✉️</div>
+                <h3>Email Us</h3>
+                <p>
+                    General: hello@fureverhome.ph<br>
+                    Support: support@fureverhome.ph<br>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">We reply within 24 hours</span>
+                </p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-card-icon">📍</div>
+                <h3>Visit Us</h3>
+                <p>
+                    123 Furever Street<br>
+                    Cebu City, Philippines 6000<br>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Open daily 10AM-6PM</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div style="background:white; border-radius:var(--radius-card); box-shadow:var(--shadow-card); padding:48px; max-width:680px; margin:48px auto 0; animation:slideUp 0.4s ease;">
+            <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:6px;">Send us a Message</h2>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:28px;">Fill out the form below and we'll get back to you as soon as possible.</p>
+
+            <form method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label class="form-label">Your Name *</label>
+                    <input type="text" name="Name" class="form-control" placeholder="Juan dela Cruz" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" name="Email" class="form-control" placeholder="you@example.com" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Subject *</label>
+                    <input type="text" name="Subject" class="form-control" placeholder="How can we help?" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Message *</label>
+                    <textarea name="Message" class="form-control" rows="5" placeholder="Tell us what's on your mind..." required style="resize:vertical;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-green btn-lg" style="width:100%; text-align:center; margin-top:8px;">Send Message 📤</button>   
+            </form>
+        </div>
+    </div>
+</section>

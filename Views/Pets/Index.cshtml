@@ -1,0 +1,178 @@
+@{
+    ViewData["Title"] = "Pets Looking for a Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/pets.css" />
+}
+
+<div class="pets-page">
+    <div class="container">
+        <!-- Header -->
+        <div class="pets-header">
+            <span class="section-eyebrow">Find Your Match</span>
+            <h1>Pets Looking for a <span class="text-orange">Home</span></h1>
+            <p>Browse all available pets and find your perfect companion. All pets deserve a loving home.</p>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="filter-bar">
+            <button class="filter-pill active" data-filter="all">All Pets</button>
+            <button class="filter-pill" data-filter="dog">🐕 Dogs</button>
+            <button class="filter-pill" data-filter="cat">🐈 Cats</button>
+            <button class="filter-pill" data-filter="rabbit">🐇 Rabbits</button>
+            <button class="filter-pill" data-filter="bird">🐦 Birds</button>
+            <button class="filter-pill" data-filter="other">🐾 Others</button>
+        </div>
+
+        <!-- Pets Grid -->
+        <div class="pets-listing-grid">
+
+            <!-- Pet Card: Buddy -->
+            <div class="pet-listing-card" data-type="dog">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐶</div>
+                    <span class="pet-status-badge available">Available</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Buddy</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐕 Labrador</span>
+                        <span class="meta-chip">📅 3 yrs</span>
+                        <span class="meta-chip">♂ Male</span>
+                    </div>
+                    <div class="pet-location">📍 Guadalupe, Cebu City</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/1" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/1" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Card: Mochi -->
+            <div class="pet-listing-card" data-type="cat">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐱</div>
+                    <span class="pet-status-badge available">Available</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Mochi</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐈 Shorthair</span>
+                        <span class="meta-chip">📅 2 yrs</span>
+                        <span class="meta-chip">♀ Female</span>
+                    </div>
+                    <div class="pet-location">📍 Talamban, Cebu City</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/2" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/2" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Card: Kiwi -->
+            <div class="pet-listing-card" data-type="rabbit">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐰</div>
+                    <span class="pet-status-badge pending">Pending</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Kiwi</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐇 Holland Lop</span>
+                        <span class="meta-chip">📅 1 yr</span>
+                        <span class="meta-chip">♂ Male</span>
+                    </div>
+                    <div class="pet-location">📍 Mandaue, Cebu</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/3" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/3" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Card: Nala -->
+            <div class="pet-listing-card" data-type="dog">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐕</div>
+                    <span class="pet-status-badge available">Available</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Nala</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐕 Aspin</span>
+                        <span class="meta-chip">📅 2 yrs</span>
+                        <span class="meta-chip">♀ Female</span>
+                    </div>
+                    <div class="pet-location">📍 Talisay, Cebu</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/4" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/4" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Card: Luna -->
+            <div class="pet-listing-card" data-type="cat">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🐈‍⬛</div>
+                    <span class="pet-status-badge available">Available</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Luna</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐈 Persian</span>
+                        <span class="meta-chip">📅 4 yrs</span>
+                        <span class="meta-chip">♀ Female</span>
+                    </div>
+                    <div class="pet-location">📍 Lahug, Cebu City</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/5" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/5" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pet Card: Max -->
+            <div class="pet-listing-card" data-type="dog">
+                <div class="pet-img-wrap">
+                    <div class="pet-img-placeholder">🦮</div>
+                    <span class="pet-status-badge adopted">Adopted</span>
+                </div>
+                <div class="pet-listing-body">
+                    <div class="pet-listing-name">Max</div>
+                    <div class="pet-listing-meta">
+                        <span class="meta-chip">🐕 Golden Retriever</span>
+                        <span class="meta-chip">📅 5 yrs</span>
+                        <span class="meta-chip">♂ Male</span>
+                    </div>
+                    <div class="pet-location">📍 Banawa, Cebu City</div>
+                    <div class="pet-listing-actions">
+                        <a href="/Pets/Details/6" class="btn btn-green btn-sm">Learn More</a>
+                        <a href="/Pets/Details/6" class="btn btn-outline-green btn-sm">❤ Save</a>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.pets-listing-grid -->
+    </div><!-- /.container -->
+</div>
+
+@section Scripts {
+<script>
+    // Filter functionality
+    document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', function() {
+            const filter = this.dataset.filter;
+            document.querySelectorAll('.pet-listing-card').forEach(card => {
+                if (filter === 'all' || card.dataset.type === filter) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+}

@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/auth.css" />
+}
+
+<div class="auth-page">
+    <div class="auth-card">
+        <!-- Mascot -->
+        <div class="auth-mascot">
+            <div class="mascot-bg">🐱</div>
+        </div>
+
+        <h1 class="auth-title">Welcome Back!</h1>
+        <p class="auth-subtitle">Login to find your furever companion 🐾</p>
+
+        <form asp-action="Login" asp-controller="Account" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <div class="input-icon-wrap">
+                    <input type="email" id="email" name="Email" class="form-control"
+                           placeholder="you@example.com" required />
+                    <span class="input-icon">✉️</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-icon-wrap">
+                    <input type="password" id="password" name="Password" class="form-control"
+                           placeholder="••••••••" required />
+                    <span class="input-icon" data-toggle-password="password" style="cursor:pointer;">👁️</span>
+                </div>
+            </div>
+
+            <div class="auth-extras">
+                <label class="checkbox-wrap">
+                    <input type="checkbox" name="RememberMe" />
+                    <span>Remember me</span>
+                </label>
+                <a href="/Account/ForgotPassword" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-green auth-btn">Login</button>
+        </form>
+
+        <p class="auth-footer">
+            Don't have an account? <a href="/Account/Register">Sign Up for Free</a>
+        </p>
+    </div>
+</div>

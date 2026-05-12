@@ -1,0 +1,385 @@
+/* ============================================
+   FUREVER HOME - PETS CSS
+   ============================================ */
+
+/* --- PETS LISTING PAGE --- */
+.pets-page {
+    padding: 56px 0 96px;
+    background: var(--cream);
+    min-height: calc(100vh - 70px);
+}
+
+.pets-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+    .pets-header h1 {
+        margin-bottom: 12px;
+    }
+
+    .pets-header p {
+        color: var(--text-muted);
+        font-size: 1rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+/* --- FILTER PILLS --- */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+
+.filter-pill {
+    padding: 9px 22px;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--green-light);
+    background: white;
+    color: var(--text-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+    .filter-pill:hover {
+        border-color: var(--green-primary);
+        color: var(--green-primary);
+    }
+
+    .filter-pill.active {
+        background: var(--green-primary);
+        border-color: var(--green-primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(47, 106, 53, 0.25);
+    }
+
+/* --- PETS GRID --- */
+.pets-listing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.pet-listing-card {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+    .pet-listing-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+    }
+
+.pet-img-wrap {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--green-light);
+}
+
+.pet-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    background: linear-gradient(135deg, var(--green-light), var(--green-pale));
+}
+
+.pet-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition);
+}
+
+.pet-listing-card:hover .pet-img-wrap img {
+    transform: scale(1.05);
+}
+
+.pet-status-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+    .pet-status-badge.available {
+        background: var(--green-primary);
+        color: white;
+    }
+
+    .pet-status-badge.pending {
+        background: var(--orange-accent);
+        color: white;
+    }
+
+    .pet-status-badge.adopted {
+        background: #888;
+        color: white;
+    }
+
+.pet-listing-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.pet-listing-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.pet-listing-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--green-light);
+    color: var(--green-primary);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+    .meta-chip .emoji {
+        font-size: 0.85rem;
+    }
+
+.pet-location {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pet-listing-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+    .pet-listing-actions .btn {
+        flex: 1;
+        padding: 10px 12px;
+        font-size: 0.83rem;
+    }
+
+/* --- PET DETAILS PAGE --- */
+.pet-details-page {
+    padding: 56px 0 96px;
+    background: var(--cream);
+    min-height: calc(100vh - 70px);
+}
+
+.pet-details-inner {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 40px;
+    align-items: start;
+}
+
+.pet-details-main {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.pet-details-img-card {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.pet-details-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    background: linear-gradient(135deg, var(--green-light), var(--green-pale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8rem;
+}
+
+.pet-details-info {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 32px;
+}
+
+.pet-details-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.pet-details-name {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.pet-details-breed {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.pet-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.pet-stat-card {
+    background: var(--green-pale);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+}
+
+.pet-stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.pet-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.pet-stat-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.pet-description {
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+/* Sidebar */
+.pet-details-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: sticky;
+    top: 90px;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 28px;
+}
+
+.sidebar-card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.owner-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.owner-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.owner-name {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.owner-location {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+    .contact-buttons .btn {
+        width: 100%;
+    }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .pets-listing-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pet-details-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .pet-details-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .pets-listing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pet-stats-row {
+        grid-template-columns: 1fr;
+    }
+}

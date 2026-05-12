@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "About Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/home.css" />
+}
+
+<!-- About Hero -->
+<section style="background:var(--green-pale); padding:80px 0;">
+    <div class="container" style="text-align:center;">
+        <span class="section-eyebrow">Our Story</span>
+        <h1 style="margin-bottom:20px;">About <span class="text-orange">Furever Home</span></h1>
+        <p style="max-width:580px; margin:0 auto; color:var(--text-muted); font-size:1.05rem; line-height:1.8;">
+            We believe every pet deserves a loving family. Furever Home was founded to bridge the gap between homeless animals and compassionate people ready to open their hearts and homes.
+        </p>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-inner">
+            <div class="about-img-wrap">
+                <div class="about-img-placeholder">🤗</div>
+                <div class="about-img-badge">🐾 Since 2020</div>
+            </div>
+            <div class="about-content">
+                <div class="section-header" style="text-align:left;">
+                    <span class="section-eyebrow">Our Mission</span>
+                    <h2 class="section-title">Making <span class="highlight">adoption</span> easy for everyone.</h2>
+                </div>
+                <p class="about-text">
+                    Furever Home started with a simple mission: to connect homeless pets with loving families. Our platform makes it easy for rescue organizations and individuals to list adoptable animals.
+                </p>
+                <p class="about-text">
+                    We connect thousands of adopters with rescue partners across the Philippines, and we're growing every day. Every adoption is a success story we're proud to be part of.
+                </p>
+                <a href="/Pets" class="btn btn-green btn-lg">Find a Pet Today 🐾</a>
+            </div>
+        </div>
+    </div>
+</section>

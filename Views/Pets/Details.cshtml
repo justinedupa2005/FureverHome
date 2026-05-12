@@ -1,0 +1,147 @@
+@{
+    ViewData["Title"] = "Pet Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/pets.css" />
+}
+
+<div class="pet-details-page">
+    <div class="container">
+
+        <!-- Breadcrumb -->
+        <nav style="margin-bottom:24px; font-size:0.88rem; color:var(--text-muted);">
+            <a href="/" style="color:var(--green-primary)">Home</a>
+            <span style="margin:0 8px;">›</span>
+            <a href="/Pets" style="color:var(--green-primary)">Pets</a>
+            <span style="margin:0 8px;">›</span>
+            <span>Buddy</span>
+        </nav>
+
+        <div class="pet-details-inner">
+            <!-- Main Content -->
+            <div class="pet-details-main">
+
+                <!-- Pet Image -->
+                <div class="pet-details-img-card">
+                    <div class="pet-details-img">🐶</div>
+                </div>
+
+                <!-- Pet Info -->
+                <div class="pet-details-info">
+                    <div class="pet-details-header">
+                        <div>
+                            <h1 class="pet-details-name">Buddy</h1>
+                            <p class="pet-details-breed">Labrador Retriever</p>
+                        </div>
+                        <span class="pet-status-badge available" style="font-size:0.88rem; padding:8px 16px;">Available</span>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="pet-stats-row">
+                        <div class="pet-stat-card">
+                            <div class="pet-stat-icon">📅</div>
+                            <div class="pet-stat-label">Age</div>
+                            <div class="pet-stat-value">3 Years Old</div>
+                        </div>
+                        <div class="pet-stat-card">
+                            <div class="pet-stat-icon">🐕</div>
+                            <div class="pet-stat-label">Breed</div>
+                            <div class="pet-stat-value">Labrador</div>
+                        </div>
+                        <div class="pet-stat-card">
+                            <div class="pet-stat-icon">⚧</div>
+                            <div class="pet-stat-label">Gender</div>
+                            <div class="pet-stat-value">Male</div>
+                        </div>
+                        <div class="pet-stat-card">
+                            <div class="pet-stat-icon">💉</div>
+                            <div class="pet-stat-label">Vaccinated</div>
+                            <div class="pet-stat-value">Yes ✓</div>
+                        </div>
+                        <div class="pet-stat-card">
+                            <div class="pet-stat-icon">📍</div>
+                            <div class="pet-stat-label">Location</div>
+                            <div class="pet-stat-value">Guadalupe</div>
+                        </div>
+                        <div class="pet-stat-card">
+                            <div class="pet-stat-icon">🐾</div>
+                            <div class="pet-stat-label">Type</div>
+                            <div class="pet-stat-value">Dog</div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <h3 style="margin-bottom:12px; font-size:1.05rem;">About Buddy</h3>
+                    <p class="pet-description">
+                        Buddy is a friendly, energetic 3-year-old Labrador Retriever who loves to play fetch and cuddle on the couch. He's great with children and other dogs, and has been fully vaccinated and neutered. Buddy has been trained in basic commands and is house-trained. He would thrive in an active household with a yard where he can run and play. He's looking for a loving family who can give him the attention and exercise he needs.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="pet-details-sidebar">
+
+                <!-- Interested in Adopting? -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-card-title">Interested in Adopting?</h3>
+
+                    <div class="owner-info">
+                        <div class="owner-avatar">😊</div>
+                        <div>
+                            <div class="owner-name">Buddy</div>
+                            <div class="owner-location">Buddy is a friendly dog</div>
+                        </div>
+                    </div>
+
+                    <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px; line-height:1.6;">
+                        Age: 3 years old<br>
+                        Breed: Labrador<br>
+                        Vaccinated: Yes
+                    </div>
+
+                    <div class="contact-buttons">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+                            <div style="text-align:center; background:var(--green-primary); color:white; padding:10px; border-radius:12px; font-weight:700; font-size:0.85rem;">
+                                📞 09874378743
+                            </div>
+                            <div style="text-align:center; background:var(--green-light); color:var(--green-primary); padding:10px; border-radius:12px; font-weight:700; font-size:0.85rem;">
+                                📍 Guadalupe, Cebu City
+                            </div>
+                        </div>
+                        <a href="/Pets/Contact/1" class="btn btn-green" style="width:100%; text-align:center;">Contact Owner</a>
+                        <a href="/Pets/Adopt/1" class="btn btn-outline-green" style="width:100%; text-align:center;">Start Adoption</a>
+                    </div>
+                </div>
+
+                <!-- Pet Details Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-card-title">Pet Details</h3>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        @{
+                            var details = new[] {
+                                new { Label = "Name", Value = "Buddy", Icon = "🐾" },
+                                new { Label = "Type", Value = "Dog", Icon = "🐕" },
+                                new { Label = "Breed", Value = "Labrador Retriever", Icon = "🦮" },
+                                new { Label = "Age", Value = "3 Years", Icon = "📅" },
+                                new { Label = "Gender", Value = "Male", Icon = "♂" },
+                                new { Label = "Vaccinated", Value = "Yes", Icon = "💉" },
+                                new { Label = "Neutered", Value = "Yes", Icon = "✅" },
+                                new { Label = "Location", Value = "Guadalupe, Cebu City", Icon = "📍" },
+                            };
+                        }
+                        @foreach (var d in details)
+                        {
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                                <span style="color:var(--text-muted);">@d.Icon @d.Label</span>
+                                <span style="font-weight:600; color:var(--text-dark);">@d.Value</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div><!-- /.sidebar -->
+        </div>
+    </div>
+</div>

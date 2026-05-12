@@ -1,0 +1,134 @@
+@{
+    ViewData["Title"] = "Edit Listing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/dashboard.css" />
+}
+
+<div class="form-page">
+    <div class="container">
+        <div class="form-card" style="position:relative;">
+
+            <!-- Close / Back -->
+            <a href="/Dashboard" class="modal-close" title="Back to Dashboard">✕</a>
+
+            <div class="section-eyebrow" style="text-align:center; margin-bottom:8px;">EDIT LISTING</div>
+            <h1 class="form-page-title">Edit <span class="highlight">Listing</span></h1>
+            <p class="form-page-subtitle">Update your pet's information below.</p>
+
+            <form asp-action="Edit" asp-controller="Dashboard" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Id" value="1" />
+
+                <!-- Current Image Preview -->
+                <div class="form-group">
+                    <label class="form-label">Current Photo</label>
+                    <div class="image-preview-placeholder" id="previewWrap">🐶</div>
+                </div>
+
+                <!-- Pet Name -->
+                <div class="form-group">
+                    <label class="form-label">Pet Name *</label>
+                    <input type="text" name="Name" value="Buddy" class="form-control" required />
+                </div>
+
+                <div class="form-two-col">
+                    <!-- Type -->
+                    <div class="form-group">
+                        <label class="form-label">Type *</label>
+                        <select name="Type" class="form-control" required>
+                            <option value="dog" selected>🐕 Dog</option>
+                            <option value="cat">🐈 Cat</option>
+                            <option value="rabbit">🐇 Rabbit</option>
+                            <option value="bird">🐦 Bird</option>
+                            <option value="other">🐾 Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Breed -->
+                    <div class="form-group">
+                        <label class="form-label">Breed *</label>
+                        <input type="text" name="Breed" value="Labrador" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="form-two-col">
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label class="form-label">Age *</label>
+                        <input type="text" name="Age" value="3 years" class="form-control" required />
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label class="form-label">Gender *</label>
+                        <select name="Gender" class="form-control" required>
+                            <option value="male" selected>♂ Male</option>
+                            <option value="female">♀ Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Contact Number -->
+                <div class="form-group">
+                    <label class="form-label">Contact Number *</label>
+                    <input type="tel" name="ContactNumber" value="09874378743" class="form-control" required />
+                </div>
+
+                <!-- Vaccinated -->
+                <div class="form-group">
+                    <label class="form-label">Vaccinated?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="Vaccinated" value="yes" checked /> Yes
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="Vaccinated" value="no" /> No
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="Vaccinated" value="unknown" /> Unknown
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label class="form-label">About this Pet</label>
+                    <textarea name="Description" class="form-control" rows="4"
+                              style="resize:vertical; min-height:100px;">Buddy is a friendly, energetic 3-year-old Labrador Retriever who loves to play fetch and cuddle.</textarea>
+                </div>
+
+                <!-- New Photo -->
+                <div class="form-group">
+                    <label class="form-label">Update Photo (optional)</label>
+                    <div class="upload-area">
+                        <div class="upload-icon">📸</div>
+                        <h4>Drag & Drop your photo here</h4>
+                        <p>Leave empty to keep the current photo</p>
+                        <button type="button" class="btn btn-outline-green btn-sm"
+                                onclick="document.getElementById('petPhotoEdit').click()">
+                            Select New Photo
+                        </button>
+                        <input type="file" id="petPhotoEdit" name="Photo" accept="image/*"
+                               data-upload-preview="photoPreviewEdit" />
+                    </div>
+                    <img id="photoPreviewEdit" src="" alt="Preview"
+                         style="display:none; width:100%; border-radius:16px; margin-top:8px; max-height:200px; object-fit:cover;" />
+                </div>
+
+                <!-- Actions -->
+                <div class="form-actions">
+                    <a href="/Dashboard/Delete/1" class="btn btn-danger"
+                       onclick="return confirm('Delete this listing permanently?')">🗑️ Delete Listing</a>
+                    <div style="display:flex; gap:10px; margin-left:auto;">
+                        <a href="/Dashboard" class="btn btn-outline-green">Cancel</a>
+                        <button type="submit" class="btn btn-green">Save Changes ✓</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

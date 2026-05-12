@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/home.css" />
+}
+
+<div style="padding:120px 24px; text-align:center; background:var(--cream); min-height:calc(100vh - 70px - 200px);">
+    <div class="container" style="max-width:600px;">
+        <div style="font-size:6rem; margin-bottom:24px;">😿</div>
+        <h1 style="font-size:2.8rem; font-weight:800; margin-bottom:12px; color:var(--text-dark);">Oops! Something went wrong</h1>
+        <p style="color:var(--text-muted); font-size:1rem; margin-bottom:32px; line-height:1.8;">
+            We're sorry, but something unexpected happened. Don't worry, our team has been notified and is working on a fix.
+        </p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <a href="/" class="btn btn-green btn-lg">Back to Home 🏠</a>
+            <a href="/Pets" class="btn btn-outline-green btn-lg">Browse Pets 🐾</a>
+        </div>
+    </div>
+</div>

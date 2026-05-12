@@ -1,0 +1,110 @@
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/profile.css" />
+}
+
+<div class="profile-page">
+    <div class="container">
+        <div class="profile-inner">
+
+            <!-- Sidebar -->
+            <div class="profile-sidebar">
+                <div class="profile-avatar-wrap">
+                    <div class="profile-avatar">🐱</div>
+                    <button class="avatar-edit-btn" title="Change photo">✎</button>
+                </div>
+                <div class="profile-name">Juan dela Cruz</div>
+                <div class="profile-email">juan@example.com</div>
+
+                <div class="profile-mini-stats">
+                    <div class="profile-mini-stat">
+                        <div class="profile-mini-stat-number">3</div>
+                        <div class="profile-mini-stat-label">Listings</div>
+                    </div>
+                    <div class="profile-mini-stat">
+                        <div class="profile-mini-stat-number">2</div>
+                        <div class="profile-mini-stat-label">Adopted</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Form -->
+            <div class="profile-form-card">
+                <div class="profile-form-header">
+                    <h2>Profile <span class="text-green">Information</span></h2>
+                    <p>Update your personal details and contact information.</p>
+                </div>
+
+                <form asp-action="Update" asp-controller="Profile" method="post" id="profileForm">
+                    @Html.AntiForgeryToken()
+
+                    <!-- View Mode Fields -->
+                    <div id="viewMode">
+                        <div class="profile-field">
+                            <div class="profile-field-label">Name</div>
+                            <div class="profile-field-value">Juan dela Cruz</div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="profile-field-label">Email Address</div>
+                            <div class="profile-field-value">juan@example.com</div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="profile-field-label">Phone Number</div>
+                            <div class="profile-field-value">+63 917 123 4567</div>
+                        </div>
+                        <div class="profile-field">
+                            <div class="profile-field-label">Address</div>
+                            <div class="profile-field-value">Guadalupe, Cebu City</div>
+                        </div>
+
+                        <div class="profile-actions">
+                            <button type="button" class="btn btn-green" onclick="toggleEdit(true)">
+                                ✏️ Edit Profile
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Edit Mode Fields (hidden by default) -->
+                    <div id="editMode" style="display:none;">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="Name" value="Juan dela Cruz" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="Email" value="juan@example.com" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="Phone" value="+63 917 123 4567" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <input type="text" name="Address" value="Guadalupe, Cebu City" class="form-control" />
+                        </div>
+
+                        <div class="profile-actions">
+                            <button type="button" class="btn btn-outline-green" onclick="toggleEdit(false)">Cancel</button>
+                            <button type="submit" class="btn btn-green">Save Changes ✓</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function toggleEdit(editing) {
+        document.getElementById('viewMode').style.display = editing ? 'none' : 'block';
+        document.getElementById('editMode').style.display = editing ? 'block' : 'none';
+    }
+</script>
+}

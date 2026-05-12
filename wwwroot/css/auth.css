@@ -1,0 +1,239 @@
+/* ============================================
+   FUREVER HOME - AUTH CSS (Login & Register)
+   ============================================ */
+
+.auth-page {
+    min-height: calc(100vh - 70px);
+    background: var(--green-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Background decoration */
+    .auth-page::before {
+        content: '';
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 400px;
+        height: 400px;
+        background: var(--green-light);
+        border-radius: 50%;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .auth-page::after {
+        content: '';
+        position: absolute;
+        bottom: -80px;
+        left: -80px;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 148, 70, 0.1);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+.auth-card {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: 0 16px 64px rgba(47, 106, 53, 0.14);
+    padding: 48px 44px;
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-mascot {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.auth-mascot-emoji {
+    font-size: 4rem;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.mascot-bg {
+    width: 100px;
+    height: 100px;
+    background: var(--green-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 3.5rem;
+}
+
+.auth-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+/* Two-column form row */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+    .auth-divider::before, .auth-divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--green-light);
+    }
+
+/* Remember me + Forgot password row */
+.auth-extras {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.checkbox-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+    .checkbox-wrap input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--green-primary);
+        cursor: pointer;
+    }
+
+    .checkbox-wrap span {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+    }
+
+.forgot-link {
+    font-size: 0.88rem;
+    color: var(--green-primary);
+    font-weight: 600;
+    transition: color var(--transition);
+}
+
+    .forgot-link:hover {
+        color: var(--green-dark);
+    }
+
+.auth-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+    .auth-footer a {
+        color: var(--green-primary);
+        font-weight: 600;
+        transition: color var(--transition);
+    }
+
+        .auth-footer a:hover {
+            color: var(--green-dark);
+        }
+
+/* Input with icon */
+.input-icon-wrap {
+    position: relative;
+}
+
+    .input-icon-wrap .form-control {
+        padding-right: 44px;
+    }
+
+.input-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+    .input-icon:hover {
+        color: var(--green-primary);
+    }
+
+/* Validation feedback */
+.field-error {
+    font-size: 0.8rem;
+    color: #e05050;
+    margin-top: 4px;
+}
+
+/* Register page wider card */
+.auth-card.register-card {
+    max-width: 520px;
+    padding: 44px 48px;
+}
+
+@media (max-width: 600px) {
+    .auth-card {
+        padding: 32px 24px;
+    }
+
+        .auth-card.register-card {
+            padding: 32px 24px;
+        }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Furever Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/shared.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <nav class="navbar" id="mainNavbar">
+        <div class="container navbar-inner">
+            <a class="navbar-brand" href="/">
+                <span class="brand-icon">🐾</span>
+                <span class="brand-text">Furever Home</span>
+            </a>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">Home</a></li>     
+                <li><a href="/Home/About" class="nav-link">About</a></li>
+                <li><a href="/Pets" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Pets" ? "active" : "")">Pets</a></li> 
+                <li><a href="/Home/Contact" class="nav-link">Contact</a></li>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <li><a href="/Dashboard" class="nav-link">Dashboard</a></li>
+                    <li><a href="/Account/Logout" class="btn btn-outline-green nav-btn">Logout</a></li>
+                }
+                else
+                {
+                    <li><a href="/Account/Login" class="nav-link">Login</a></li>
+                    <li><a href="/Account/Register" class="btn btn-orange nav-btn">Sign Up</a></li>
+                }
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <span class="brand-icon">🐾</span>
+                <span class="brand-text">Furever Home</span>
+            </div>
+            <p class="footer-tagline">2023 Furever Home. Made with love for every paw.</p>
+            <ul class="footer-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/Home/About">About</a></li>
+                <li><a href="/Home/Contact">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="/js/shared.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

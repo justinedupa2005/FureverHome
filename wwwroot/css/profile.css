@@ -1,0 +1,191 @@
+/* ============================================
+   FUREVER HOME - PROFILE CSS
+   ============================================ */
+
+.profile-page {
+    padding: 56px 0 96px;
+    background: var(--cream);
+    min-height: calc(100vh - 70px);
+}
+
+.profile-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+/* --- PROFILE SIDEBAR --- */
+.profile-sidebar {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 36px 28px;
+    text-align: center;
+    position: sticky;
+    top: 90px;
+}
+
+.profile-avatar-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--green-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    border: 4px solid white;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+    .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.avatar-edit-btn {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green-primary);
+    color: white;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+    .avatar-edit-btn:hover {
+        background: var(--green-dark);
+    }
+
+.profile-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.profile-email {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+/* Stats mini row */
+.profile-mini-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.profile-mini-stat {
+    background: var(--green-pale);
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.profile-mini-stat-number {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--green-primary);
+}
+
+.profile-mini-stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* --- PROFILE FORM CARD --- */
+.profile-form-card {
+    background: white;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 36px;
+}
+
+.profile-form-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--green-light);
+}
+
+    .profile-form-header h2 {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
+
+    .profile-form-header p {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+    }
+
+/* View mode fields */
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.profile-field-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-field-value {
+    background: var(--green-light);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 2px solid var(--green-light);
+}
+
+    .profile-actions .btn {
+        min-width: 160px;
+    }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .profile-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-sidebar {
+        position: static;
+    }
+}
