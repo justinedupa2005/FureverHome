@@ -1,3 +1,4 @@
+@model IEnumerable<FureverHome.Models.Pet>
 @{
     ViewData["Title"] = "My Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,68 +24,54 @@
         <!-- Listings Grid -->
         <div class="dashboard-listings-grid">
 
-            <!-- Dashboard Pet Card 1 -->
-            <div class="dashboard-pet-card">
-                <div class="dashboard-pet-img">🐶</div>
-                <div class="dashboard-pet-body">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                        <div class="dashboard-pet-name">Buddy</div>
-                        <span class="badge badge-green" style="font-size:0.72rem;">Available</span>
-                    </div>
-                    <div class="dashboard-pet-meta">
-                        <span class="meta-chip">🐕 Labrador</span>
-                        <span class="meta-chip">📅 3 yrs</span>
-                        <span class="meta-chip">♂ Male</span>
-                    </div>
-                    <div class="dashboard-pet-actions">
-                        <a href="/Dashboard/Edit/1" class="btn btn-outline-green">✏️ Edit</a>
-                        <a href="/Dashboard/Delete/1" class="btn btn-danger"
-                           onclick="return confirm('Are you sure you want to delete this listing?')">🗑️ Delete</a>
+            @foreach (var pet in Model)
+            {
+                <div class="dashboard-pet-card">
+                    @if (!string.IsNullOrEmpty(pet.ImagePath))
+                    {
+                        <div class="dashboard-pet-img" style="padding:0;">
+                            <img src="@pet.ImagePath" alt="@pet.PetName" style="width:100%; height:100%; object-fit:cover; border-radius:12px;" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="dashboard-pet-img">
+                            @(pet.Species.SpeciesName.ToLower() switch
+                            {
+                                "dog" => "🐶",
+                                "cat" => "🐱",
+                                "rabbit" => "🐰",
+                                "bird" => "🐦",
+                                _ => "🐾"
+                            })
+                        </div>
+                    }
+                    <div class="dashboard-pet-body">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                            <div class="dashboard-pet-name">@pet.PetName</div>
+                            <span class="badge @(pet.AdoptionStatus.StatusName.ToLower() == "available" ? "badge-green" : "badge-orange")" style="font-size:0.72rem;">@pet.AdoptionStatus.StatusName</span>
+                        </div>
+                        <div class="dashboard-pet-meta">
+                            <span class="meta-chip">@(pet.Species.SpeciesName.ToLower() == "dog" ? "🐕" : pet.Species.SpeciesName.ToLower() == "cat" ? "🐈" : "🐾") @pet.Breed.BreedName</span>
+                            <span class="meta-chip">📅 @pet.Age</span>
+                            <span class="meta-chip">@(pet.Gender.GenderName.ToLower() == "male" ? "♂" : "♀") @pet.Gender.GenderName</span>
+                        </div>
+                        <div class="dashboard-pet-actions">
+                            <a href="/Dashboard/Edit/@pet.PetID" class="btn btn-outline-green">✏️ Edit</a>
+                            <a href="/Dashboard/Delete/@pet.PetID" class="btn btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this listing?')">🗑️ Delete</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
-            <!-- Dashboard Pet Card 2 -->
-            <div class="dashboard-pet-card">
-                <div class="dashboard-pet-img">🐱</div>
-                <div class="dashboard-pet-body">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                        <div class="dashboard-pet-name">Mochi</div>
-                        <span class="badge badge-orange" style="font-size:0.72rem;">Pending</span>
-                    </div>
-                    <div class="dashboard-pet-meta">
-                        <span class="meta-chip">🐈 Shorthair</span>
-                        <span class="meta-chip">📅 2 yrs</span>
-                        <span class="meta-chip">♀ Female</span>
-                    </div>
-                    <div class="dashboard-pet-actions">
-                        <a href="/Dashboard/Edit/2" class="btn btn-outline-green">✏️ Edit</a>
-                        <a href="/Dashboard/Delete/2" class="btn btn-danger"
-                           onclick="return confirm('Are you sure you want to delete this listing?')">🗑️ Delete</a>
-                    </div>
+            @if (!Model.Any())
+            {
+                <div class="no-listings-message" style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff; border-radius: 16px; border: 2px dashed #ddd;">
+                    <h3>You haven't listed any pets yet. 🐾</h3>
+                    <p>Click the button above to start helping pets find their forever home.</p>
                 </div>
-            </div>
-
-            <!-- Dashboard Pet Card 3 -->
-            <div class="dashboard-pet-card">
-                <div class="dashboard-pet-img">🐰</div>
-                <div class="dashboard-pet-body">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                        <div class="dashboard-pet-name">Kiwi</div>
-                        <span class="badge badge-green" style="font-size:0.72rem;">Available</span>
-                    </div>
-                    <div class="dashboard-pet-meta">
-                        <span class="meta-chip">🐇 Rabbit</span>
-                        <span class="meta-chip">📅 1 yr</span>
-                        <span class="meta-chip">♂ Male</span>
-                    </div>
-                    <div class="dashboard-pet-actions">
-                        <a href="/Dashboard/Edit/3" class="btn btn-outline-green">✏️ Edit</a>
-                        <a href="/Dashboard/Delete/3" class="btn btn-danger"
-                           onclick="return confirm('Are you sure you want to delete this listing?')">🗑️ Delete</a>
-                    </div>
-                </div>
-            </div>
+            }
 
         </div>
     </div>

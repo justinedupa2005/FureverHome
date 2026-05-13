@@ -1,5 +1,6 @@
+@model FureverHome.Models.Pet
 @{
-    ViewData["Title"] = "Pet Details";
+    ViewData["Title"] = Model.PetName + " - Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,7 +17,7 @@
             <span style="margin:0 8px;">›</span>
             <a href="/Pets" style="color:var(--green-primary)">Pets</a>
             <span style="margin:0 8px;">›</span>
-            <span>Buddy</span>
+            <span>@Model.PetName</span>
         </nav>
 
         <div class="pet-details-inner">
@@ -25,17 +26,33 @@
 
                 <!-- Pet Image -->
                 <div class="pet-details-img-card">
-                    <div class="pet-details-img">🐶</div>
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <img src="@Model.ImagePath" alt="@Model.PetName" style="width:100%; height:auto; border-radius:24px; display:block;" />
+                    }
+                    else
+                    {
+                        <div class="pet-details-img">
+                            @(Model.Species.SpeciesName.ToLower() switch
+                            {
+                                "dog" => "🐶",
+                                "cat" => "🐱",
+                                "rabbit" => "🐰",
+                                "bird" => "🐦",
+                                _ => "🐾"
+                            })
+                        </div>
+                    }
                 </div>
 
                 <!-- Pet Info -->
                 <div class="pet-details-info">
                     <div class="pet-details-header">
                         <div>
-                            <h1 class="pet-details-name">Buddy</h1>
-                            <p class="pet-details-breed">Labrador Retriever</p>
+                            <h1 class="pet-details-name">@Model.PetName</h1>
+                            <p class="pet-details-breed">@Model.Breed.BreedName</p>
                         </div>
-                        <span class="pet-status-badge available" style="font-size:0.88rem; padding:8px 16px;">Available</span>
+                        <span class="pet-status-badge @Model.AdoptionStatus.StatusName.ToLower()" style="font-size:0.88rem; padding:8px 16px;">@Model.AdoptionStatus.StatusName</span>
                     </div>
 
                     <!-- Quick Stats -->
@@ -43,39 +60,39 @@
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">📅</div>
                             <div class="pet-stat-label">Age</div>
-                            <div class="pet-stat-value">3 Years Old</div>
+                            <div class="pet-stat-value">@Model.Age</div>
                         </div>
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">🐕</div>
                             <div class="pet-stat-label">Breed</div>
-                            <div class="pet-stat-value">Labrador</div>
+                            <div class="pet-stat-value">@Model.Breed.BreedName</div>
                         </div>
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">⚧</div>
                             <div class="pet-stat-label">Gender</div>
-                            <div class="pet-stat-value">Male</div>
+                            <div class="pet-stat-value">@Model.Gender.GenderName</div>
                         </div>
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">💉</div>
                             <div class="pet-stat-label">Vaccinated</div>
-                            <div class="pet-stat-value">Yes ✓</div>
+                            <div class="pet-stat-value">@(Model.Vaccinated ? "Yes ✓" : "No ✗")</div>
                         </div>
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">📍</div>
                             <div class="pet-stat-label">Location</div>
-                            <div class="pet-stat-value">Guadalupe</div>
+                            <div class="pet-stat-value">@(string.IsNullOrEmpty(Model.PetOwner.FirstName) ? "Cebu City" : Model.PetOwner.FirstName)</div>
                         </div>
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">🐾</div>
                             <div class="pet-stat-label">Type</div>
-                            <div class="pet-stat-value">Dog</div>
+                            <div class="pet-stat-value">@Model.Species.SpeciesName</div>
                         </div>
                     </div>
 
                     <!-- Description -->
-                    <h3 style="margin-bottom:12px; font-size:1.05rem;">About Buddy</h3>
+                    <h3 style="margin-bottom:12px; font-size:1.05rem;">About @Model.PetName</h3>
                     <p class="pet-description">
-                        Buddy is a friendly, energetic 3-year-old Labrador Retriever who loves to play fetch and cuddle on the couch. He's great with children and other dogs, and has been fully vaccinated and neutered. Buddy has been trained in basic commands and is house-trained. He would thrive in an active household with a yard where he can run and play. He's looking for a loving family who can give him the attention and exercise he needs.
+                        @(string.IsNullOrEmpty(Model.Description) ? $"Meet {Model.PetName}, a lovely {Model.Breed.BreedName} looking for a forever home!" : Model.Description)
                     </p>
                 </div>
             </div>
@@ -83,62 +100,77 @@
             <!-- Sidebar -->
             <div class="pet-details-sidebar">
 
-                <!-- Interested in Adopting? (Mockup Style) -->
+                <!-- Interested in Adopting? -->
                 <div class="sidebar-card" style="border: 2px solid var(--green-light); position: relative;">
-                    <div style="position: absolute; top: 12px; right: 12px; font-size: 0.8rem; cursor: pointer; opacity: 0.5;">✕</div>
                     <h3 class="sidebar-card-title" style="color:var(--orange-accent); margin-bottom: 15px;">Interested in Adopting?</h3>
 
                     <div style="display: flex; gap: 15px; margin-bottom: 20px;">
                         <div style="width: 80px; height: 80px; border-radius: 20px; background: var(--green-pale); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; overflow: hidden;">
-                             🐶
+                             @if (!string.IsNullOrEmpty(Model.ImagePath))
+                             {
+                                 <img src="@Model.ImagePath" style="width:100%; height:100%; object-fit:cover;" />
+                             }
+                             else
+                             {
+                                 @(Model.Species.SpeciesName.ToLower() switch { "dog" => "🐶", "cat" => "🐱", "rabbit" => "🐰", "bird" => "🐦", _ => "🐾" })
+                             }
                         </div>
                         <div>
-                            <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 2px;">Buddy</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Buddy is a loving dog</div>
+                            <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 2px;">@Model.PetName</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Looking for a home</div>
                             <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
-                                Age: 3 years old<br>
-                                Gender: Male<br>
-                                Breed: Labrador<br>
-                                Vaccinated: Yes
+                                Age: @Model.Age<br>
+                                Gender: @Model.Gender.GenderName<br>
+                                Breed: @Model.Breed.BreedName<br>
+                                Vaccinated: @(Model.Vaccinated ? "Yes" : "No")
                             </div>
                         </div>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
                         <div style="background: #dcfce7; color: #166534; padding: 10px 5px; border-radius: 12px; font-weight: 700; font-size: 0.75rem; text-align: center;">
-                            09874378743
+                            @Model.PetOwner.PhoneNumber
                         </div>
                         <div style="background: #fef9c3; color: #854d0e; padding: 10px 5px; border-radius: 12px; font-weight: 700; font-size: 0.75rem; text-align: center;">
-                            Guadalupe, Cebu City
+                            @(string.IsNullOrEmpty(Model.PetOwner.FirstName) ? "Cebu City" : Model.PetOwner.FirstName)
                         </div>
                     </div>
                     
-                    <a href="/Pets/Contact/1" class="btn btn-green" style="width:100%; font-size: 0.9rem;">Contact Owner</a>
+                    <a href="tel:@Model.PetOwner.PhoneNumber" class="btn btn-green" style="width:100%; font-size: 0.9rem;">Contact Owner</a>
                 </div>
 
                 <!-- Pet Details Card -->
                 <div class="sidebar-card">
                     <h3 class="sidebar-card-title">Pet Details</h3>
                     <div style="display:flex; flex-direction:column; gap:10px;">
-                        @{
-                            var details = new[] {
-                                new { Label = "Name", Value = "Buddy", Icon = "🐾" },
-                                new { Label = "Type", Value = "Dog", Icon = "🐕" },
-                                new { Label = "Breed", Value = "Labrador Retriever", Icon = "🦮" },
-                                new { Label = "Age", Value = "3 Years", Icon = "📅" },
-                                new { Label = "Gender", Value = "Male", Icon = "♂" },
-                                new { Label = "Vaccinated", Value = "Yes", Icon = "💉" },
-                                new { Label = "Neutered", Value = "Yes", Icon = "✅" },
-                                new { Label = "Location", Value = "Guadalupe, Cebu City", Icon = "📍" },
-                            };
-                        }
-                        @foreach (var d in details)
-                        {
-                            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
-                                <span style="color:var(--text-muted);">@d.Icon @d.Label</span>
-                                <span style="font-weight:600; color:var(--text-dark);">@d.Value</span>
-                            </div>
-                        }
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                            <span style="color:var(--text-muted);">🐾 Name</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@Model.PetName</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                            <span style="color:var(--text-muted);">🐕 Type</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@Model.Species.SpeciesName</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                            <span style="color:var(--text-muted);">🦮 Breed</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@Model.Breed.BreedName</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                            <span style="color:var(--text-muted);">📅 Age</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@Model.Age</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                            <span style="color:var(--text-muted);">♂ Gender</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@Model.Gender.GenderName</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                            <span style="color:var(--text-muted);">💉 Vaccinated</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@(Model.Vaccinated ? "Yes" : "No")</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
+                            <span style="color:var(--text-muted);">📍 Location</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@(string.IsNullOrEmpty(Model.PetOwner.FirstName) ? "Cebu City" : Model.PetOwner.FirstName)</span>
+                        </div>
                     </div>
                 </div>
 

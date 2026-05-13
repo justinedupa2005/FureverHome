@@ -37,10 +37,14 @@ namespace FureverHome.Models
         public virtual Gender Gender { get; set; } = null!;
 
         [Required]
-        public int Age { get; set; }
+        public string Age { get; set; } = string.Empty;
 
         [Required]
         public bool Vaccinated { get; set; }
+
+        public string? Description { get; set; }
+
+        public string? ImagePath { get; set; }
 
         [Required]
         public int StatusID { get; set; }

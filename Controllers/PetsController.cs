@@ -1,25 +1,57 @@
+using FureverHome.Data;
+using FureverHome.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FureverHome.Controllers
 {
     [Authorize]
     public class PetsController : Controller
     {
-        // GET: /Pets
-        public IActionResult Index(string? filter)
+        private readonly ApplicationDbContext _context;
+
+        public PetsController(ApplicationDbContext context)
         {
+            _context = context;
+        }
+
+        // GET: /Pets
+        public async Task<IActionResult> Index(string? filter)
+        {
+            var pets = await _context.Pets
+                .Include(p => p.Species)
+                .Include(p => p.Breed)
+                .Include(p => p.Gender)
+                .Include(p => p.AdoptionStatus)
+                .Include(p => p.PetOwner)
+                    .ThenInclude(po => po.User)
+                .ToListAsync();
+
             ViewData["Title"] = "Pets Looking for a Home";
             ViewBag.Filter = filter;
-            return View();
+            return View(pets);
         }
 
         // GET: /Pets/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            ViewData["Title"] = "Pet Details";
-            ViewBag.PetId = id;
-            return View();
+            var pet = await _context.Pets
+                .Include(p => p.Species)
+                .Include(p => p.Breed)
+                .Include(p => p.Gender)
+                .Include(p => p.AdoptionStatus)
+                .Include(p => p.PetOwner)
+                    .ThenInclude(po => po.User)
+                .FirstOrDefaultAsync(p => p.PetID == id);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Title"] = pet.PetName + " - Details";
+            return View(pet);
         }
 
         // Instead of looking for a missing view,

@@ -1,3 +1,4 @@
+@model IEnumerable<FureverHome.Models.Pet>
 @{
     ViewData["Title"] = "Pets Looking for a Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,131 +30,53 @@
         <!-- Pets Grid -->
         <div class="pets-grid">
 
-            <!-- Pet Card: Buddy -->
-            <div class="pet-listing-card" data-type="dog">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐶</div>
-                    <span class="pet-status-badge available">Available</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
-                </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Buddy</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐕 Labrador</span>
-                        <span class="meta-chip">📅 3 yrs</span>
-                        <span class="meta-chip">♂ Male</span>
+            @foreach (var pet in Model)
+            {
+                <div class="pet-listing-card" data-type="@pet.Species.SpeciesName.ToLower()">
+                    <div class="pet-img-wrap">
+                        @if (!string.IsNullOrEmpty(pet.ImagePath))
+                        {
+                            <img src="@pet.ImagePath" alt="@pet.PetName" style="width:100%; height:100%; object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <div class="pet-img-placeholder">
+                                @(pet.Species.SpeciesName.ToLower() switch
+                                {
+                                    "dog" => "🐶",
+                                    "cat" => "🐱",
+                                    "rabbit" => "🐰",
+                                    "bird" => "🐦",
+                                    _ => "🐾"
+                                })
+                            </div>
+                        }
+                        <span class="pet-status-badge @pet.AdoptionStatus.StatusName.ToLower()">@pet.AdoptionStatus.StatusName</span>
+                        <button class="pet-save-btn" title="Save to favorites">❤</button>
                     </div>
-                    <div class="pet-location">📍 Guadalupe, Cebu City</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/1" class="btn btn-green btn-sm">Learn More</a>
+                    <div class="pet-listing-body">
+                        <div class="pet-listing-name">@pet.PetName</div>
+                        <div class="pet-listing-meta">
+                            <span class="meta-chip">@(pet.Species.SpeciesName.ToLower() == "dog" ? "🐕" : pet.Species.SpeciesName.ToLower() == "cat" ? "🐈" : "🐾") @pet.Breed.BreedName</span>
+                            <span class="meta-chip">📅 @pet.Age</span>
+                            <span class="meta-chip">@(pet.Gender.GenderName.ToLower() == "male" ? "♂" : "♀") @pet.Gender.GenderName</span>
+                        </div>
+                        <div class="pet-location">📍 @(string.IsNullOrEmpty(pet.PetOwner.User.UserName) ? "Cebu City" : pet.PetOwner.FirstName)</div>
+                        <div class="pet-listing-actions">
+                            <a href="/Pets/Details/@pet.PetID" class="btn btn-green btn-sm">Learn More</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
-            <!-- Pet Card: Mochi -->
-            <div class="pet-listing-card" data-type="cat">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐱</div>
-                    <span class="pet-status-badge available">Available</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
+            @if (!Model.Any())
+            {
+                <div class="no-pets-message" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <h3>No pets found yet. 🐾</h3>
+                    <p>Be the first to list a pet for adoption!</p>
+                    <a href="/Dashboard/Create" class="btn btn-green">List a Pet</a>
                 </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Mochi</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐈 Shorthair</span>
-                        <span class="meta-chip">📅 2 yrs</span>
-                        <span class="meta-chip">♀ Female</span>
-                    </div>
-                    <div class="pet-location">📍 Talamban, Cebu City</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/2" class="btn btn-green btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pet Card: Kiwi -->
-            <div class="pet-listing-card" data-type="rabbit">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐰</div>
-                    <span class="pet-status-badge pending">Pending</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
-                </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Kiwi</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐇 Holland Lop</span>
-                        <span class="meta-chip">📅 1 yr</span>
-                        <span class="meta-chip">♂ Male</span>
-                    </div>
-                    <div class="pet-location">📍 Mandaue, Cebu</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/3" class="btn btn-green btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pet Card: Nala -->
-            <div class="pet-listing-card" data-type="dog">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐕</div>
-                    <span class="pet-status-badge available">Available</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
-                </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Nala</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐕 Aspin</span>
-                        <span class="meta-chip">📅 2 yrs</span>
-                        <span class="meta-chip">♀ Female</span>
-                    </div>
-                    <div class="pet-location">📍 Talisay, Cebu</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/4" class="btn btn-green btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pet Card: Luna -->
-            <div class="pet-listing-card" data-type="cat">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐈‍⬛</div>
-                    <span class="pet-status-badge available">Available</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
-                </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Luna</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐈 Persian</span>
-                        <span class="meta-chip">📅 4 yrs</span>
-                        <span class="meta-chip">♀ Female</span>
-                    </div>
-                    <div class="pet-location">📍 Lahug, Cebu City</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/5" class="btn btn-green btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pet Card: Max -->
-            <div class="pet-listing-card" data-type="dog">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🦮</div>
-                    <span class="pet-status-badge adopted">Adopted</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
-                </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Max</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐕 Golden Retriever</span>
-                        <span class="meta-chip">📅 5 yrs</span>
-                        <span class="meta-chip">♂ Male</span>
-                    </div>
-                    <div class="pet-location">📍 Banawa, Cebu City</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/6" class="btn btn-green btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
+            }
 
         </div><!-- /.pets-grid -->
 
