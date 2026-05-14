@@ -6,19 +6,27 @@
 
 @section Styles {
     <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="/css/ContactModal.css" />
+    <link rel="stylesheet" href="/css/ProfilePopupModal.css" />
 }
 
 <div class="profile-page">
     <div class="container">
         <div class="profile-inner">
 
-            <!-- Sidebar -->
             <div class="profile-sidebar">
                 <div class="profile-avatar-wrap">
                     <div class="profile-avatar">
-                        <img src="~/images/profile_icon.png" alt="Profile Icon" style="mix-blend-mode: multiply;" />
+                        @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
+                        {
+                            <img src="@Model.ProfilePicturePath" alt="Profile" />
+                        }
+                        else
+                        {
+                            <img src="~/images/profile_icon.png" alt="Default" style="mix-blend-mode: multiply;" />
+                        }
                     </div>
-                    <button class="avatar-edit-btn" title="Change photo">✎</button>
+                    <button type="button" class="avatar-edit-btn" onclick="openPhotoModal()" title="Change photo">✎</button>
                 </div>
                 <div class="profile-name">@Model.FullName</div>
                 <div class="profile-email">@Model.Email</div>
@@ -35,7 +43,6 @@
                 </div>
             </div>
 
-            <!-- Profile Form -->
             <div class="profile-form-card">
                 <div class="profile-form-header">
                     <h2>Profile <span class="text-green">Information</span></h2>
@@ -45,7 +52,6 @@
                 <form asp-action="Update" asp-controller="Profile" method="post" id="profileForm">
                     @Html.AntiForgeryToken()
 
-                    <!-- View Mode Fields -->
                     <div id="viewMode">
                         <div class="profile-field">
                             <div class="profile-field-label">Name</div>
@@ -65,45 +71,56 @@
                         </div>
 
                         <div class="profile-actions">
-                            <button type="button" class="btn btn-green" onclick="toggleEdit(true)">
-                                ✏️ Edit Profile
-                            </button>
+                            <button type="button" class="btn btn-green" onclick="toggleEdit(true)">✏️ Edit Profile</button>
                         </div>
                     </div>
 
-                    <!-- Edit Mode Fields -->
                     <div id="editMode" style="display:none;">
-                        <div class="form-group">
-                            <label class="form-label">First Name</label>
-                            <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" name="LastName" value="@Model.LastName" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="Email" value="@Model.Email" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Phone Number</label>
-                            <input type="tel" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <input type="text" name="Address" value="@Model.Address" class="form-control" />
-                        </div>
+                        <div class="form-group"><label class="form-label">First Name</label><input type="text" name="FirstName" value="@Model.FirstName" class="form-control" /></div>
+                        <div class="form-group"><label class="form-label">Last Name</label><input type="text" name="LastName" value="@Model.LastName" class="form-control" /></div>
+                        <div class="form-group"><label class="form-label">Email Address</label><input type="email" name="Email" value="@Model.Email" class="form-control" /></div>
+                        <div class="form-group"><label class="form-label">Phone Number</label><input type="tel" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" /></div>
+                        <div class="form-group"><label class="form-label">Address</label><input type="text" name="Address" value="@Model.Address" class="form-control" /></div>
 
                         <div class="profile-actions">
                             <button type="button" class="btn btn-outline-green" onclick="toggleEdit(false)">Cancel</button>
                             <button type="submit" class="btn btn-green">Save Changes ✓</button>
                         </div>
                     </div>
-
                 </form>
             </div>
-
         </div>
+    </div>
+</div>
+
+<div id="photoModal" class="custom-modal" style="display:none;">
+    <div class="modal-overlay" onclick="closePhotoModal()"></div>
+    <div class="modal-content contact-card-pop">
+        <button class="close-modal" onclick="closePhotoModal()">✕</button>
+
+        <div class="profile-form-header">
+            <h2>Update <span class="text-green">Photo</span></h2>
+        </div>
+
+        <form asp-action="UpdatePhoto" asp-controller="Profile" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="upload-area" id="dropZone">
+                <span class="upload-icon">📸</span>
+                <h4>Drag & Drop your photo here</h4>
+                <p>Supports JPG, PNG, WebP (max 2MB)</p>
+                <div class="btn-select-photo">Select Photo</div>
+
+                <input type="file" id="ProfilePictureInput" name="ProfilePicture" accept="image/*" required />
+            </div>
+
+            <div id="filePreviewName" style="margin-top: 10px; font-size: 0.85rem; color: #166534; font-weight: 600;"></div>
+
+            <div class="profile-actions" style="justify-content: center; gap: 10px; margin-top: 25px;">
+                <button type="button" class="btn btn-outline-green" onclick="closePhotoModal()">Cancel</button>
+                <button type="submit" class="btn btn-green">Save Photo ✓</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -113,5 +130,21 @@
             document.getElementById('viewMode').style.display = editing ? 'none' : 'block';
             document.getElementById('editMode').style.display = editing ? 'block' : 'none';
         }
+
+        function openPhotoModal() {
+            document.getElementById('photoModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoModal() {
+            document.getElementById('photoModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Show filename when selected
+        document.getElementById('ProfilePictureInput').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : "";
+            document.getElementById('filePreviewName').textContent = fileName ? "Selected: " + fileName : "";
+        });
     </script>
 }

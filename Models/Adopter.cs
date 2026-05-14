@@ -27,8 +27,9 @@ namespace FureverHome.Models
         public string PhoneNumber { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(200)]
+        [StringLength(225)]
         public string Address { get; set; } = string.Empty;
+        public string? ProfilePicturePath { get; set; }
 
         // Navigation property
         public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
