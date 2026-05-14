@@ -14,7 +14,7 @@ namespace FureverHome.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public DashboardController(ApplicationDbContext context, 
+        public DashboardController(ApplicationDbContext context,
                                    UserManager<ApplicationUser> userManager,
                                    IWebHostEnvironment hostEnvironment)
         {
@@ -56,10 +56,10 @@ namespace FureverHome.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string Name, string Type, string Breed, string Age,
-                                    string Gender, string ContactNumber, string Vaccinated,
-                                    string Description, IFormFile? Photo)
+                                    string Gender, string ContactNumber, string Address,
+                                    string Vaccinated, string Description, IFormFile? Photo)
         {
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Type) || string.IsNullOrEmpty(Breed))
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Type) || string.IsNullOrEmpty(Breed) || string.IsNullOrEmpty(Address))
             {
                 TempData["ErrorMessage"] = "Please fill in all required fields.";
                 return View();
@@ -70,7 +70,6 @@ namespace FureverHome.Controllers
 
             try
             {
-                // Ensure PetOwner profile exists
                 var owner = await _context.PetOwners.FirstOrDefaultAsync(po => po.UserId == user.Id);
                 if (owner == null)
                 {
@@ -85,7 +84,6 @@ namespace FureverHome.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                // Map Species
                 var speciesName = char.ToUpper(Type[0]) + Type.Substring(1).ToLower();
                 var species = await _context.Species.FirstOrDefaultAsync(s => s.SpeciesName == speciesName);
                 if (species == null)
@@ -95,7 +93,6 @@ namespace FureverHome.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                // Map Breed
                 var breedObj = await _context.Breeds.FirstOrDefaultAsync(b => b.BreedName.ToLower() == Breed.ToLower() && b.SpeciesID == species.SpeciesID);
                 if (breedObj == null)
                 {
@@ -104,7 +101,6 @@ namespace FureverHome.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                // Map Gender
                 var genderObj = await _context.Genders.FirstOrDefaultAsync(g => g.GenderName.ToLower() == Gender.ToLower());
                 if (genderObj == null)
                 {
@@ -116,11 +112,10 @@ namespace FureverHome.Controllers
                     }
                 }
 
-                // Get Status (default to Available)
-                var status = await _context.AdoptionStatuses.FirstOrDefaultAsync(s => s.StatusName == "Available") 
+                var status = await _context.AdoptionStatuses.FirstOrDefaultAsync(s => s.StatusName == "Available")
                              ?? await _context.AdoptionStatuses.FirstOrDefaultAsync()
                              ?? new AdoptionStatus { StatusName = "Available" };
-                
+
                 if (status.StatusID == 0)
                 {
                     _context.AdoptionStatuses.Add(status);
@@ -132,7 +127,7 @@ namespace FureverHome.Controllers
                 {
                     string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images", "pets");
                     if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
-                    
+
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + Photo.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -150,6 +145,7 @@ namespace FureverHome.Controllers
                     BreedID = breedObj.BreedID,
                     GenderID = genderObj.GenderID,
                     Age = Age,
+                    Address = Address,
                     Vaccinated = (Vaccinated?.ToLower() == "yes"),
                     Description = Description,
                     ImagePath = imagePath,
@@ -186,7 +182,6 @@ namespace FureverHome.Controllers
 
             if (pet == null) return NotFound();
 
-            // Ensure the user owns this pet
             var owner = await _context.PetOwners.FirstOrDefaultAsync(po => po.UserId == user.Id);
             if (owner == null || pet.OwnerID != owner.OwnerID) return Forbid();
 
@@ -198,10 +193,10 @@ namespace FureverHome.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, string Name, string Type, string Breed, string Age,
-                                  string Gender, string ContactNumber, string Vaccinated,
-                                  string Description, IFormFile? Photo)
+                                  string Gender, string ContactNumber, string Address, string Status,
+                                  string Vaccinated, string Description, IFormFile? Photo)
         {
-            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Type) || string.IsNullOrEmpty(Breed))
+            if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Type) || string.IsNullOrEmpty(Breed) || string.IsNullOrEmpty(Address) || string.IsNullOrEmpty(Status))
             {
                 TempData["ErrorMessage"] = "Please fill in all required fields.";
                 return RedirectToAction("Edit", new { id });
@@ -215,18 +210,22 @@ namespace FureverHome.Controllers
                 var pet = await _context.Pets.Include(p => p.PetOwner).FirstOrDefaultAsync(p => p.PetID == id);
                 if (pet == null) return NotFound();
 
-                // Ensure the user owns this pet
                 var owner = await _context.PetOwners.FirstOrDefaultAsync(po => po.UserId == user.Id);
                 if (owner == null || pet.OwnerID != owner.OwnerID) return Forbid();
 
-                // Update PetOwner phone number if provided
                 if (!string.IsNullOrEmpty(ContactNumber))
                 {
                     owner.PhoneNumber = ContactNumber;
                     _context.PetOwners.Update(owner);
                 }
 
-                // Update Species
+                // Update Status Mapping
+                var statusObj = await _context.AdoptionStatuses.FirstOrDefaultAsync(s => s.StatusName == Status);
+                if (statusObj != null)
+                {
+                    pet.StatusID = statusObj.StatusID;
+                }
+
                 var speciesName = char.ToUpper(Type[0]) + Type.Substring(1).ToLower();
                 var species = await _context.Species.FirstOrDefaultAsync(s => s.SpeciesName == speciesName);
                 if (species == null)
@@ -236,7 +235,6 @@ namespace FureverHome.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                // Update Breed
                 var breedObj = await _context.Breeds.FirstOrDefaultAsync(b => b.BreedName.ToLower() == Breed.ToLower() && b.SpeciesID == species.SpeciesID);
                 if (breedObj == null)
                 {
@@ -245,7 +243,6 @@ namespace FureverHome.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                // Update Gender
                 var genderObj = await _context.Genders.FirstOrDefaultAsync(g => g.GenderName.ToLower() == Gender.ToLower());
                 if (genderObj != null)
                 {
@@ -256,7 +253,7 @@ namespace FureverHome.Controllers
                 {
                     string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images", "pets");
                     if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
-                    
+
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + Photo.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -270,6 +267,7 @@ namespace FureverHome.Controllers
                 pet.SpeciesID = species.SpeciesID;
                 pet.BreedID = breedObj.BreedID;
                 pet.Age = Age;
+                pet.Address = Address;
                 pet.Vaccinated = Vaccinated.ToLower() == "yes";
                 pet.Description = Description;
 
@@ -295,7 +293,6 @@ namespace FureverHome.Controllers
             var pet = await _context.Pets.FindAsync(id);
             if (pet == null) return NotFound();
 
-            // Ensure the user owns this pet
             var owner = await _context.PetOwners.FirstOrDefaultAsync(po => po.UserId == user.Id);
             if (owner == null || pet.OwnerID != owner.OwnerID) return Forbid();
 

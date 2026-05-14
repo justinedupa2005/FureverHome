@@ -1,3 +1,4 @@
+@model ProfileViewModel
 @{
     ViewData["Title"] = "My Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,8 +20,8 @@
                     </div>
                     <button class="avatar-edit-btn" title="Change photo">✎</button>
                 </div>
-                <div class="profile-name">Juan dela Cruz</div>
-                <div class="profile-email">juan@example.com</div>
+                <div class="profile-name">@Model.FullName</div>
+                <div class="profile-email">@Model.Email</div>
 
                 <div class="profile-mini-stats">
                     <div class="profile-mini-stat">
@@ -48,19 +49,19 @@
                     <div id="viewMode">
                         <div class="profile-field">
                             <div class="profile-field-label">Name</div>
-                            <div class="profile-field-value">Juan dela Cruz</div>
+                            <div class="profile-field-value">@Model.FullName</div>
                         </div>
                         <div class="profile-field">
                             <div class="profile-field-label">Email Address</div>
-                            <div class="profile-field-value">juan@example.com</div>
+                            <div class="profile-field-value">@Model.Email</div>
                         </div>
                         <div class="profile-field">
                             <div class="profile-field-label">Phone Number</div>
-                            <div class="profile-field-value">+63 917 123 4567</div>
+                            <div class="profile-field-value">@Model.PhoneNumber</div>
                         </div>
                         <div class="profile-field">
                             <div class="profile-field-label">Address</div>
-                            <div class="profile-field-value">Guadalupe, Cebu City</div>
+                            <div class="profile-field-value">@Model.Address</div>
                         </div>
 
                         <div class="profile-actions">
@@ -70,23 +71,27 @@
                         </div>
                     </div>
 
-                    <!-- Edit Mode Fields (hidden by default) -->
+                    <!-- Edit Mode Fields -->
                     <div id="editMode" style="display:none;">
                         <div class="form-group">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" name="Name" value="Juan dela Cruz" class="form-control" />
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" name="LastName" value="@Model.LastName" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
-                            <input type="email" name="Email" value="juan@example.com" class="form-control" />
+                            <input type="email" name="Email" value="@Model.Email" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="form-label">Phone Number</label>
-                            <input type="tel" name="Phone" value="+63 917 123 4567" class="form-control" />
+                            <input type="tel" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="form-label">Address</label>
-                            <input type="text" name="Address" value="Guadalupe, Cebu City" class="form-control" />
+                            <input type="text" name="Address" value="@Model.Address" class="form-control" />
                         </div>
 
                         <div class="profile-actions">
@@ -103,10 +108,10 @@
 </div>
 
 @section Scripts {
-<script>
-    function toggleEdit(editing) {
-        document.getElementById('viewMode').style.display = editing ? 'none' : 'block';
-        document.getElementById('editMode').style.display = editing ? 'block' : 'none';
-    }
-</script>
+    <script>
+        function toggleEdit(editing) {
+            document.getElementById('viewMode').style.display = editing ? 'none' : 'block';
+            document.getElementById('editMode').style.display = editing ? 'block' : 'none';
+        }
+    </script>
 }

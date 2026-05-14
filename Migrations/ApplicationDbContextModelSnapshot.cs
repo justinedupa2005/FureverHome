@@ -236,6 +236,10 @@ namespace FureverHome.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetID"));
 
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("Age")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

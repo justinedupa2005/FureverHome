@@ -45,6 +45,8 @@ namespace FureverHome.Models
         public string? Description { get; set; }
 
         public string? ImagePath { get; set; }
+        [StringLength(200)]
+        public string? Address { get; set; }
 
         [Required]
         public int StatusID { get; set; }

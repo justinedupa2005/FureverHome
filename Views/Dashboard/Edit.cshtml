@@ -40,10 +40,21 @@
                     }
                 </div>
 
-                <!-- Pet Name -->
-                <div class="form-group">
-                    <label class="form-label">Pet Name *</label>
-                    <input type="text" name="Name" value="@Model.PetName" class="form-control" required />
+                <!-- Pet Name & Status Row -->
+                <div class="form-two-col">
+                    <div class="form-group">
+                        <label class="form-label">Pet Name *</label>
+                        <input type="text" name="Name" value="@Model.PetName" class="form-control" required />
+                    </div>
+
+                    <!-- Status Dropdown -->
+                    <div class="form-group">
+                        <label class="form-label">Adoption Status *</label>
+                        <select name="Status" class="form-control" required>
+                            <option value="Available" selected="@(Model.AdoptionStatus.StatusName == "Available")">🟢 Available</option>
+                            <option value="Adopted" selected="@(Model.AdoptionStatus.StatusName == "Adopted")">🏠 Adopted</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-two-col">
@@ -87,6 +98,15 @@
                 <div class="form-group">
                     <label class="form-label">Contact Number *</label>
                     <input type="tel" name="ContactNumber" value="@Model.PetOwner.PhoneNumber" class="form-control" required />
+                </div>
+
+                <!-- Address -->
+                <div class="form-group">
+                    <label class="form-label">Location/Address *</label>
+                    <div class="input-icon-wrap">
+                        <input type="text" name="Address" value="@Model.Address" class="form-control"
+                               placeholder="e.g., Guadalupe, Cebu City" required />
+                    </div>
                 </div>
 
                 <!-- Vaccinated -->

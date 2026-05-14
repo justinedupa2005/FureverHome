@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FureverHome.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260512132225_RestoreIdentityInternalTables")]
-    partial class RestoreIdentityInternalTables
+    [Migration("20260514171510_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -239,14 +239,25 @@ namespace FureverHome.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetID"));
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Age")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("BreedID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("GenderID")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OwnerID")
                         .HasColumnType("int");
