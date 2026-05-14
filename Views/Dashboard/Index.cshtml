@@ -56,6 +56,11 @@
                             <span class="meta-chip">📅 @pet.Age</span>
                             <span class="meta-chip">@(pet.Gender.GenderName.ToLower() == "male" ? "♂" : "♀") @pet.Gender.GenderName</span>
                         </div>
+
+                        <div class="pet-location" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                            📍 @(string.IsNullOrEmpty(pet.Address) ? "Cebu City" : pet.Address)
+                        </div>
+
                         <div class="dashboard-pet-actions">
                             <a href="/Dashboard/Edit/@pet.PetID" class="btn btn-outline-green">✏️ Edit</a>
                             <a href="/Dashboard/Delete/@pet.PetID" class="btn btn-danger"

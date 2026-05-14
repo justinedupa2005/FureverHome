@@ -2,10 +2,13 @@
 @{
     ViewData["Title"] = Model.PetName + " - Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    // Check if pet is adopted
+    bool isAdopted = Model.AdoptionStatus.StatusName.Equals("Adopted", StringComparison.OrdinalIgnoreCase);
 }
 
 @section Styles {
     <link rel="stylesheet" href="/css/pets.css" />
+    <link rel="stylesheet" href="/css/ContactModal.css" /> <!-- Add this line -->
 }
 
 <div class="pet-details-page">
@@ -25,10 +28,10 @@
             <div class="pet-details-main">
 
                 <!-- Pet Image -->
-                <div class="pet-details-img-card">
+                <div class="pet-details-img-card" style="position:relative;">
                     @if (!string.IsNullOrEmpty(Model.ImagePath))
                     {
-                        <img src="@Model.ImagePath" alt="@Model.PetName" style="width:100%; height:auto; border-radius:24px; display:block;" />
+                        <img src="@Model.ImagePath" alt="@Model.PetName" style="width:100%; height:auto; border-radius:24px; display:block; filter: @(isAdopted ? "grayscale(30%)" : "none");" />
                     }
                     else
                     {
@@ -41,6 +44,14 @@
                                 "bird" => "🐦",
                                 _ => "🐾"
                             })
+                        </div>
+                    }
+
+                    @if (isAdopted)
+                    {
+                        <!-- Adopted Overlay Ribbon -->
+                        <div style="position:absolute; top:20px; left:20px; background:rgba(255,255,255,0.9); padding:10px 20px; border-radius:50px; font-weight:800; color:var(--orange-accent); box-shadow:0 4px 15px rgba(0,0,0,0.1); border:2px solid var(--orange-accent);">
+                            🎉 FOUND A HOME!
                         </div>
                     }
                 </div>
@@ -80,7 +91,7 @@
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">📍</div>
                             <div class="pet-stat-label">Location</div>
-                            <div class="pet-stat-value">@(string.IsNullOrEmpty(Model.PetOwner.FirstName) ? "Cebu City" : Model.PetOwner.FirstName)</div>
+                            <div class="pet-stat-value">@(string.IsNullOrEmpty(Model.Address) ? "Cebu City" : Model.Address)</div>
                         </div>
                         <div class="pet-stat-card">
                             <div class="pet-stat-icon">🐾</div>
@@ -100,44 +111,64 @@
             <!-- Sidebar -->
             <div class="pet-details-sidebar">
 
-                <!-- Interested in Adopting? -->
-                <div class="sidebar-card" style="border: 2px solid var(--green-light); position: relative;">
-                    <h3 class="sidebar-card-title" style="color:var(--orange-accent); margin-bottom: 15px;">Interested in Adopting?</h3>
+                @if (!isAdopted)
+                {
+                    <!-- Interested in Adopting? (Shown only if Available) -->
+                    <div class="sidebar-card" style="border: 2px solid var(--green-light); position: relative;">
+                        <h3 class="sidebar-card-title" style="color:var(--orange-accent); margin-bottom: 15px;">Interested in Adopting?</h3>
 
-                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-                        <div style="width: 80px; height: 80px; border-radius: 20px; background: var(--green-pale); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; overflow: hidden;">
-                             @if (!string.IsNullOrEmpty(Model.ImagePath))
-                             {
-                                 <img src="@Model.ImagePath" style="width:100%; height:100%; object-fit:cover;" />
-                             }
-                             else
-                             {
-                                 @(Model.Species.SpeciesName.ToLower() switch { "dog" => "🐶", "cat" => "🐱", "rabbit" => "🐰", "bird" => "🐦", _ => "🐾" })
-                             }
-                        </div>
-                        <div>
-                            <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 2px;">@Model.PetName</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Looking for a home</div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
-                                Age: @Model.Age<br>
-                                Gender: @Model.Gender.GenderName<br>
-                                Breed: @Model.Breed.BreedName<br>
-                                Vaccinated: @(Model.Vaccinated ? "Yes" : "No")
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                            <div style="width: 80px; height: 80px; border-radius: 20px; background: var(--green-pale); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; overflow: hidden;">
+                                @if (!string.IsNullOrEmpty(Model.ImagePath))
+                                {
+                                    <img src="@Model.ImagePath" style="width:100%; height:100%; object-fit:cover;" />
+                                }
+                                else
+                                {
+                                    @(Model.Species.SpeciesName.ToLower() switch { "dog" => "🐶", "cat" => "🐱", "rabbit" => "🐰", "bird" => "🐦", _ => "🐾" })
+                                }
+                            </div>
+                            <div>
+                                <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 2px;">@Model.PetName</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">Looking for a home</div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                                    Age: @Model.Age<br>
+                                    Gender: @Model.Gender.GenderName<br>
+                                    Breed: @Model.Breed.BreedName<br>
+                                    Vaccinated: @(Model.Vaccinated ? "Yes" : "No")
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                        <div style="background: #dcfce7; color: #166534; padding: 10px 5px; border-radius: 12px; font-weight: 700; font-size: 0.75rem; text-align: center;">
-                            @Model.PetOwner.PhoneNumber
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+                            <div style="background: #dcfce7; color: #166534; padding: 10px 5px; border-radius: 12px; font-weight: 700; font-size: 0.75rem; text-align: center;">
+                                @Model.PetOwner.PhoneNumber
+                            </div>
+                            <div style="background: #fef9c3; color: #854d0e; padding: 10px 5px; border-radius: 12px; font-weight: 700; font-size: 0.75rem; text-align: center;">
+                                @(string.IsNullOrEmpty(Model.Address) ? "Cebu City" : Model.Address)
+                            </div>
                         </div>
-                        <div style="background: #fef9c3; color: #854d0e; padding: 10px 5px; border-radius: 12px; font-weight: 700; font-size: 0.75rem; text-align: center;">
-                            @(string.IsNullOrEmpty(Model.PetOwner.FirstName) ? "Cebu City" : Model.PetOwner.FirstName)
+
+                        <!-- TRIGGER BUTTON FOR MODAL -->
+                        <button type="button" class="btn btn-green" style="width:100%; font-size: 0.9rem;" onclick="openContactModal()">
+                            Contact Owner
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <!-- Adopted Message (Shown only if Adopted) -->
+                    <div class="sidebar-card" style="border: 2px solid var(--orange-accent); background: #fffcf9; text-align:center;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">🎉</div>
+                        <h3 class="sidebar-card-title" style="color:var(--orange-accent); margin-bottom: 5px;">Happy News!</h3>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+                            <strong>@Model.PetName</strong> has been successfully adopted and is now living with their forever family.
+                        </p>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ffd8b1;">
+                            <a href="/Pets" class="btn btn-outline-green" style="width:100%;">View Other Pets</a>
                         </div>
                     </div>
-                    
-                    <a href="tel:@Model.PetOwner.PhoneNumber" class="btn btn-green" style="width:100%; font-size: 0.9rem;">Contact Owner</a>
-                </div>
+                }
 
                 <!-- Pet Details Card -->
                 <div class="sidebar-card">
@@ -169,7 +200,7 @@
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--green-light); font-size:0.88rem;">
                             <span style="color:var(--text-muted);">📍 Location</span>
-                            <span style="font-weight:600; color:var(--text-dark);">@(string.IsNullOrEmpty(Model.PetOwner.FirstName) ? "Cebu City" : Model.PetOwner.FirstName)</span>
+                            <span style="font-weight:600; color:var(--text-dark);">@(string.IsNullOrEmpty(Model.Address) ? "Cebu City" : Model.Address)</span>
                         </div>
                     </div>
                 </div>
@@ -178,3 +209,54 @@
         </div>
     </div>
 </div>
+
+<!-- CONTACT OWNER MODAL -->
+<div id="contactModal" class="custom-modal" style="display:none;">
+    <div class="modal-overlay" onclick="closeContactModal()"></div>
+    <div class="modal-content contact-card-pop">
+        <button class="close-modal" onclick="closeContactModal()">✕</button>
+
+        <div class="owner-profile-header">
+            <div class="owner-avatar-large">
+                <img src="~/images/profile_icon.png" alt="Owner Profile" />
+            </div>
+            <h2 class="owner-name">@Model.PetOwner.FirstName @Model.PetOwner.LastName</h2>
+            <p class="owner-subtitle">Pet Owner / Rescuer</p>
+        </div>
+
+        <div class="owner-contact-details">
+            <div class="contact-item">
+                <span class="icon">📞</span>
+                <div>
+                    <label>Phone Number</label>
+                    <p>@Model.PetOwner.PhoneNumber</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <span class="icon">📍</span>
+                <div>
+                    <label>Owner Address</label>
+                    <p>@(string.IsNullOrEmpty(Model.PetOwner.User.FirstName) ? "Address not provided" : Model.Address)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer-actions">
+            <a href="tel:@Model.PetOwner.PhoneNumber" class="btn btn-green" style="width:100%;">Call Owner Now</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openContactModal() {
+            document.getElementById('contactModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling background
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+}

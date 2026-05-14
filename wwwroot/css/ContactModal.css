@@ -1,0 +1,121 @@
+﻿/* Modal Container */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.contact-card-pop {
+    position: relative;
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 30px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.owner-avatar-large {
+    width: 100px;
+    height: 100px;
+    background: #f0fdf4;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    border: 4px solid #bbf7d0;
+}
+
+    .owner-avatar-large img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.owner-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 5px;
+}
+
+.owner-subtitle {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+.owner-contact-details {
+    text-align: left;
+    background: #f9fbf9;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.contact-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+    .contact-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .contact-item .icon {
+        font-size: 1.2rem;
+    }
+
+    .contact-item label {
+        font-size: 0.75rem;
+        color: #6b7280;
+        text-transform: uppercase;
+        font-weight: 700;
+        display: block;
+    }
+
+    .contact-item p {
+        font-size: 0.95rem;
+        color: #1f2937;
+        font-weight: 600;
+        margin: 0;
+    }
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #9ca3af;
+}
