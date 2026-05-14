@@ -10,7 +10,6 @@
 
 <div class="auth-page">
     <div class="auth-card register-card">
-        <!-- Mascot (sign_up_icon.png) -->
         <div class="auth-mascot">
             <div class="mascot-bg">
                 <img src="~/images/sign_up_icon.png" alt="Sign Up Mascot" style="width: 80%; mix-blend-mode: multiply;" />
@@ -52,6 +51,15 @@
                     <span class="input-icon">📞</span>
                 </div>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="form-label"></label>
+                <div class="input-icon-wrap">
+                    <input asp-for="Address" class="form-control" placeholder="House No., Street, City, Province" />
+                    <span class="input-icon">📍</span>
+                </div>
+                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
 
             <div class="form-group">

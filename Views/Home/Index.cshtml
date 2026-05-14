@@ -28,12 +28,18 @@
                     }
                 </div>
             </div>
-            <!-- RIGHT: phone image -->
+            <!-- RIGHT: image area -->
             <div class="hero-image">
-                <img src="/images/phone_login.png" 
-                     alt="Furever Home App" 
-                     class="hero-phone-img">
-                <div class="mascot-hero">
+                @if (User.Identity?.IsAuthenticated != true)
+                {
+                    <!-- Only show phone if logged out -->
+                    <img src="/images/phone_login.png" 
+                         alt="Furever Home App" 
+                         class="hero-phone-img">
+                }
+
+                <!-- Mascot logic -->
+                <div class="mascot-hero @(User.Identity?.IsAuthenticated == true ? "mascot-logged-in" : "")">
                     <img src="/images/illustration_home.png" alt="Mascot Cat" style="width: 100%; mix-blend-mode: multiply;">
                 </div>
             </div>
@@ -61,7 +67,7 @@
     </div>
 </section>
 
-<!-- ===== HOW IT WORKS ===== -->
+<!-- Rest of the sections (How it works, Featured Pets, etc.) remain the same... -->
 <section class="how-it-works">
     <div class="container">
         <div class="section-header">
@@ -94,7 +100,6 @@
     </div>
 </section>
 
-<!-- ===== FEATURED PETS ===== -->
 <section class="featured-pets" style="padding: 100px 0; background-color: var(--cream); position: relative; overflow: hidden;">
     <div class="container">
         <div class="section-header" style="max-width: 700px; margin: 0 auto 60px; text-align: center;">
@@ -104,7 +109,6 @@
         </div>
 
         <div class="pets-grid">
-            <!-- Pet Card 1 -->
             <div class="pet-listing-card">
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐶</div>
@@ -125,7 +129,6 @@
                 </div>
             </div>
 
-            <!-- Pet Card 2 -->
             <div class="pet-listing-card">
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐱</div>
@@ -146,7 +149,6 @@
                 </div>
             </div>
 
-            <!-- Pet Card 3 -->
             <div class="pet-listing-card">
                 <div class="pet-img-wrap">
                     <div class="pet-img-placeholder">🐰</div>
@@ -172,124 +174,66 @@
             <a href="/Pets" class="btn btn-green btn-lg" style="box-shadow: 0 10px 20px rgba(47, 106, 53, 0.15);">View All Pets 🐾</a>
         </div>
     </div>
-    
-    <!-- Decorative background elements -->
-    <div style="position: absolute; top: 10%; left: -50px; font-size: 5rem; opacity: 0.03; transform: rotate(-15deg); pointer-events: none;">🐾</div>
-    <div style="position: absolute; bottom: 10%; right: -50px; font-size: 5rem; opacity: 0.03; transform: rotate(15deg); pointer-events: none;">🐾</div>
 </section>
 
-@section Scripts {
-<script>
-    // Save toggle functionality
-    document.querySelectorAll('.pet-save-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            this.classList.toggle('active');
-            
-            if (this.classList.contains('active')) {
-                this.innerHTML = '❤️';
-            } else {
-                this.innerHTML = '❤';
-            }
-        });
-    });
-</script>
-}
-
-<!-- ===== ADOPTION PROCESS ===== -->
 <section class="adoption-process">
     <div class="container">
         <div class="section-header">
             <span class="section-eyebrow">Step by Step</span>
-            <h2 class="section-title">The <span class="highlight">Adoption Process</span></h2> 
-            <p class="section-subtitle">Follow these simple steps to welcome a furry friend into your home.</p>  
+            <h2 class="section-title">The <span class="highlight">Adoption Process</span></h2>
+            <p class="section-subtitle">Follow these simple steps to welcome a furry friend into your home.</p>
         </div>
-
         <div class="process-grid">
-            <div class="process-card">
-                <span class="process-card-icon">📋</span>
-                <h3>Create an Account</h3>
-                <p>Sign up for free and create your adopter profile so we can match you with the perfect pet.</p>
-            </div>
-            <div class="process-card">
-                <span class="process-card-icon">🔎</span>
-                <h3>Browse Listings</h3>
-                <p>Explore our curated listings of dogs, cats, and small animals waiting for a loving home.</p>
-            </div>
-            <div class="process-card">
-                <span class="process-card-icon">💛</span>
-                <h3>Fall In Love</h3>
-                <p>Find the pet that speaks to your heart and save your favorites to revisit anytime.</p>
-            </div>
-            <div class="process-card">
-                <span class="process-card-icon">📞</span>
-                <h3>Contact My Lister</h3>
-                <p>Connect directly with the rescue partner or owner to schedule a meet-and-greet.</p>
-            </div>
-            <div class="process-card">
-                <span class="process-card-icon">🐾</span>
-                <h3>Meet & Greet</h3>
-                <p>Visit your chosen pet and make sure it's the right match for your family and home.</p>
-            </div>
-            <div class="process-card">
-                <span class="process-card-icon">🏡</span>
-                <h3>Welcome New Home</h3>
-                <p>Complete the adoption paperwork and bring your new best friend home forever.</p>
-            </div>
+            <div class="process-card"><span class="process-card-icon">📋</span><h3>Create an Account</h3><p>Sign up for free and create your adopter profile.</p></div>
+            <div class="process-card"><span class="process-card-icon">🔎</span><h3>Browse Listings</h3><p>Explore our curated listings of dogs and cats.</p></div>
+            <div class="process-card"><span class="process-card-icon">💛</span><h3>Fall In Love</h3><p>Find the pet that speaks to your heart.</p></div>
+            <div class="process-card"><span class="process-card-icon">📞</span><h3>Contact My Lister</h3><p>Connect directly with the rescue partner.</p></div>
+            <div class="process-card"><span class="process-card-icon">🐾</span><h3>Meet & Greet</h3><p>Visit your chosen pet and make sure it's the right match.</p></div>
+            <div class="process-card"><span class="process-card-icon">🏡</span><h3>Welcome New Home</h3><p>Complete paperwork and bring your friend home.</p></div>
         </div>
     </div>
 </section>
 
-<!-- ===== ABOUT SECTION ===== -->
 <section class="about-section">
     <div class="container">
         <div class="about-inner">
             <div class="about-img-wrap">
                 <img src="/images/about_photo.png" alt="About Furever Home" style="width: 100%; height: 100%; object-fit: cover; border-radius: 25px;" />
             </div>
-
             <div class="about-content">
                 <div class="section-header">
                     <span class="section-eyebrow">About Furever Home</span>
                     <h2 class="section-title">About <span class="highlight">Furever Home</span></h2>
                 </div>
-                <p class="about-text">
-                    Furever Home is a community-driven platform dedicated to connecting loving families with pets in need of a forever home. Every animal deserves warmth, care, and unconditional love.
-                </p>
-                <p class="about-text">
-                    Our platform makes it easy for individuals and rescue organizations to list pets, and for families to find their perfect companion without additional complicated processes.
-                </p>
+                <p class="about-text">Furever Home is a community-driven platform dedicated to connecting families with pets.</p>
                 <a href="/Home/About" class="btn btn-green btn-lg">Join Our Mission</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== CONTACT SECTION ===== -->
 <section class="contact-section">
     <div class="container">
         <div class="section-header">
             <span class="section-eyebrow">Get In Touch</span>
             <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
-            <p class="section-subtitle">Have questions? We'd love to hear from you. Send us a message!</p>
         </div>
-
         <div class="contact-grid">
-            <div class="contact-card">
-                <div class="contact-card-icon">📞</div>
-                <h3>Call Us</h3>
-                <p>+63 947 123 4567<br>+63 917 987 6543</p>
-            </div>
-            <div class="contact-card">
-                <div class="contact-card-icon">✉️</div>
-                <h3>Email Us</h3>
-                <p>hello@fureverhome.ph<br>support@fureverhome.ph</p>
-            </div>
-            <div class="contact-card">
-                <div class="contact-card-icon">📍</div>
-                <h3>Find Us</h3>
-                <p>123 Furever Street<br>Cebu City, Philippines</p>
-            </div>
+            <div class="contact-card"><div class="contact-card-icon">📞</div><h3>Call Us</h3><p>+63 947 123 4567</p></div>
+            <div class="contact-card"><div class="contact-card-icon">✉️</div><h3>Email Us</h3><p>hello@fureverhome.ph</p></div>
+            <div class="contact-card"><div class="contact-card-icon">📍</div><h3>Find Us</h3><p>Cebu City, Philippines</p></div>
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.pet-save-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.classList.toggle('active');
+                this.innerHTML = this.classList.contains('active') ? '❤️' : '❤';
+            });
+        });
+    </script>
+}

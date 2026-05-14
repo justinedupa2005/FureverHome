@@ -25,6 +25,11 @@ namespace FureverHome.Models
         public string PhoneNumber { get; set; } = string.Empty;
 
         [Required]
+        [StringLength(200)]
+        [Display(Name = "Address")]
+        public string Address { get; set; } = string.Empty;
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
