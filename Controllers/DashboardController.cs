@@ -46,8 +46,18 @@ namespace FureverHome.Controllers
 
         // GET: /Dashboard/Create
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var user = await _userManager.Users
+                .Include(u => u.AdopterProfile)
+                .FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            // Pass profile info to the view for pre-filling
+            ViewBag.PhoneNumber = user.AdopterProfile?.PhoneNumber ?? user.PhoneNumber;
+            ViewBag.Address = user.AdopterProfile?.Address;
+
             ViewData["Title"] = "List a Pet";
             return View();
         }
@@ -59,14 +69,19 @@ namespace FureverHome.Controllers
                                     string Gender, string ContactNumber, string Address,
                                     string Vaccinated, string Description, IFormFile? Photo)
         {
+            var user = await _userManager.Users
+                .Include(u => u.AdopterProfile)
+                .FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+
+            if (user == null) return RedirectToAction("Login", "Account");
+
             if (string.IsNullOrEmpty(Name) || string.IsNullOrEmpty(Type) || string.IsNullOrEmpty(Breed) || string.IsNullOrEmpty(Address))
             {
+                ViewBag.PhoneNumber = user.AdopterProfile?.PhoneNumber ?? user.PhoneNumber;
+                ViewBag.Address = user.AdopterProfile?.Address;
                 TempData["ErrorMessage"] = "Please fill in all required fields.";
                 return View();
             }
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return RedirectToAction("Login", "Account");
 
             try
             {

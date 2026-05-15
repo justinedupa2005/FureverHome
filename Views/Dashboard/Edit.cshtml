@@ -96,16 +96,17 @@
 
                 <!-- Contact Number -->
                 <div class="form-group">
-                    <label class="form-label">Contact Number *</label>
-                    <input type="tel" name="ContactNumber" value="@Model.PetOwner.PhoneNumber" class="form-control" required />
+                    <label class="form-label">Contact Number (from Profile)</label>
+                    <input type="tel" name="ContactNumber" value="@Model.PetOwner.PhoneNumber" class="form-control"
+                           readonly style="background-color: #f3f4f6; cursor: not-allowed;" />
                 </div>
 
                 <!-- Address -->
                 <div class="form-group">
-                    <label class="form-label">Location/Address *</label>
+                    <label class="form-label">Location/Address (from Profile)</label>
                     <div class="input-icon-wrap">
                         <input type="text" name="Address" value="@Model.Address" class="form-control"
-                               placeholder="e.g., Guadalupe, Cebu City" required />
+                               readonly style="background-color: #f3f4f6; cursor: not-allowed;" />
                     </div>
                 </div>
 
