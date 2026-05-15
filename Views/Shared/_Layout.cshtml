@@ -47,6 +47,7 @@
             <div class="nav-actions">
                 @if (User.Identity?.IsAuthenticated == true)
                 {
+                    <a href="/Favorites" class="nav-fav-btn" title="My Favorites">❤️</a>
                     <a href="/Profile" class="user-profile" title="View Profile">
                         <div class="user-avatar">@displayName[0].ToString().ToUpper()</div>
                         <span class="user-name">@displayName</span>

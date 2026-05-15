@@ -22,10 +22,25 @@ namespace FureverHome.Data
         public DbSet<Breed> Breeds { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Pet> Pets { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Favorite -> ApplicationUser (One-to-Many)
+            modelBuilder.Entity<Favorite>()
+                .HasOne(f => f.User)
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Favorite -> Pet (One-to-Many)
+            modelBuilder.Entity<Favorite>()
+                .HasOne(f => f.Pet)
+                .WithMany()
+                .HasForeignKey(f => f.PetID)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // To avoid the "mapped then ignored" warning, we DON'T use Ignore<T>.
             // IdentityUserContext already handles the exclusion of Roles.

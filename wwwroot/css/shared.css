@@ -269,6 +269,26 @@ h3 {
     flex-shrink: 0;
 }
 
+.nav-fav-btn {
+    width: 38px;
+    height: 38px;
+    background: var(--green-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all var(--transition);
+    border: 1.5px solid var(--green-light);
+}
+
+    .nav-fav-btn:hover {
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(47, 106, 53, 0.1);
+        border-color: var(--orange-accent);
+    }
+
 .user-profile {
     display: flex;
     align-items: center;

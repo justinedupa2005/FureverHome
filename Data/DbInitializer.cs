@@ -7,7 +7,8 @@ namespace FureverHome.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
-            context.Database.EnsureCreated();
+            // Use Migrate() instead of EnsureCreated() to apply any pending migrations
+            context.Database.Migrate();
 
             // Look for any species.
             if (context.Species.Any())

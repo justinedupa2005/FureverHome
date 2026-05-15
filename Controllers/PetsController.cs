@@ -1,6 +1,7 @@
 using FureverHome.Data;
 using FureverHome.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ namespace FureverHome.Controllers
     public class PetsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PetsController(ApplicationDbContext context)
+        public PetsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: /Pets
@@ -28,8 +31,19 @@ namespace FureverHome.Controllers
                     .ThenInclude(po => po.User)
                 .ToListAsync();
 
+            var userId = _userManager.GetUserId(User);
+            var favoritePetIds = new List<int>();
+            if (userId != null)
+            {
+                favoritePetIds = await _context.Favorites
+                    .Where(f => f.UserId == userId)
+                    .Select(f => f.PetID)
+                    .ToListAsync();
+            }
+
             ViewData["Title"] = "Pets Looking for a Home";
             ViewBag.Filter = filter;
+            ViewBag.FavoritePetIds = favoritePetIds;
             return View(pets);
         }
 

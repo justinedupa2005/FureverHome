@@ -1,30 +1,46 @@
 @model IEnumerable<FureverHome.Models.Pet>
 @{
-    ViewData["Title"] = "Pets Looking for a Home";
+    ViewData["Title"] = "My Favorite Pets";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
     <link rel="stylesheet" href="/css/pets.css" />
+    <style>
+        .no-favorites {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-card);
+            grid-column: 1 / -1;
+        }
+        .no-favorites-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .no-favorites h2 {
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+        .no-favorites p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 }
 
 <div class="pets-page">
     <div class="container">
         <!-- Header -->
         <div class="pets-header">
-            <span class="section-eyebrow">Find Your Match</span>
-            <h1>Pets Looking for a <span class="highlight">Home</span></h1>
-            <p>Browse all available pets and find your perfect companion. All pets deserve a loving home.</p>
-        </div>
-
-        <!-- Filter Pills -->
-        <div class="filter-bar">
-            <button class="filter-pill active" data-filter="all">All Pets</button>
-            <button class="filter-pill" data-filter="dog">🐕 Dogs</button>
-            <button class="filter-pill" data-filter="cat">🐈 Cats</button>
-            <button class="filter-pill" data-filter="rabbit">🐇 Rabbits</button>
-            <button class="filter-pill" data-filter="bird">🐦 Birds</button>
-            <button class="filter-pill" data-filter="other">🐾 Others</button>
+            <span class="section-eyebrow">Your Favorites</span>
+            <h1>Saved <span class="highlight">Pets</span></h1>
+            <p>These are the pets you've favorited. Keep track of your future companions here.</p>
         </div>
 
         @Html.AntiForgeryToken()
@@ -34,7 +50,6 @@
 
             @foreach (var pet in Model)
             {
-                bool isFavorite = (ViewBag.FavoritePetIds as List<int>)?.Contains(pet.PetID) ?? false;
                 <div class="pet-listing-card" data-type="@pet.Species.SpeciesName.ToLower()">
                     <div class="pet-img-wrap">
                         @if (!string.IsNullOrEmpty(pet.ImagePath))
@@ -55,7 +70,7 @@
                             </div>
                         }
                         <span class="pet-status-badge @pet.AdoptionStatus.StatusName.ToLower()">@pet.AdoptionStatus.StatusName</span>
-                        <button class="pet-save-btn @(isFavorite ? "active" : "")" data-id="@pet.PetID" title="Save to favorites">@(isFavorite ? "❤️" : "❤")</button>
+                        <button class="pet-save-btn active" data-id="@pet.PetID" title="Remove from favorites">❤️</button>
                     </div>
                     <div class="pet-listing-body">
                         <div class="pet-listing-name">@pet.PetName</div>
@@ -74,10 +89,11 @@
 
             @if (!Model.Any())
             {
-                <div class="no-pets-message" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                    <h3>No pets found yet. 🐾</h3>
-                    <p>Be the first to list a pet for adoption!</p>
-                    <a href="/Dashboard/Create" class="btn btn-green">List a Pet</a>
+                <div class="no-favorites">
+                    <span class="no-favorites-icon">❤️</span>
+                    <h2>No favorites yet</h2>
+                    <p>You haven't saved any pets to your favorites yet. Start browsing to find your match!</p>
+                    <a href="/Pets" class="btn btn-green">Browse All Pets</a>
                 </div>
             }
 
@@ -88,13 +104,13 @@
 
 @section Scripts {
 <script>
-    // Save toggle functionality
+    // Toggle favorite functionality
     document.querySelectorAll('.pet-save-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const petId = this.dataset.id;
-            const button = this;
-
+            const card = this.closest('.pet-listing-card');
+            
             fetch('/Favorites/Toggle', {
                 method: 'POST',
                 headers: {
@@ -106,32 +122,18 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    button.classList.toggle('active', data.isFavorite);
-                    button.innerHTML = data.isFavorite ? '❤️' : '❤';
-                } else {
-                    // Redirect to login if not authorized (status 401 would be better but simple JSON check for now)
-                    if (data.message === "User not logged in") {
-                        window.location.href = '/Account/Login';
+                    if (!data.isFavorite) {
+                        // In favorites page, removing should probably hide the card
+                        card.style.transition = 'all 0.3s ease';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.9)';
+                        setTimeout(() => {
+                            card.remove();
+                            if (document.querySelectorAll('.pet-listing-card').length === 0) {
+                                location.reload(); // Show the empty state
+                            }
+                        }, 300);
                     }
-                }
-            });
-        });
-    });
-
-    // Filter functionality
-    document.querySelectorAll('.filter-pill').forEach(pill => {
-        pill.addEventListener('click', function() {
-            // Remove active class from all pills
-            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-            // Add active class to clicked pill
-            this.classList.add('active');
-
-            const filter = this.dataset.filter;
-            document.querySelectorAll('.pet-listing-card').forEach(card => {
-                if (filter === 'all' || card.dataset.type === filter) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
                 }
             });
         });
