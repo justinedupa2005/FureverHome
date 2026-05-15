@@ -1,12 +1,48 @@
+using FureverHome.Data;
+using FureverHome.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FureverHome.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public HomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            return View();
+            _context = context;
+            _userManager = userManager;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var petCount = await _context.Pets.CountAsync();
+            ViewBag.PetCount = petCount;
+
+            var featuredPets = await _context.Pets
+                .Include(p => p.Species)
+                .Include(p => p.Breed)
+                .Include(p => p.Gender)
+                .Include(p => p.AdoptionStatus)
+                .OrderByDescending(p => p.PetID)
+                .Take(3)
+                .ToListAsync();
+
+            var userId = _userManager.GetUserId(User);
+            var favoritePetIds = new List<int>();
+            if (userId != null)
+            {
+                favoritePetIds = await _context.Favorites
+                    .Where(f => f.UserId == userId)
+                    .Select(f => f.PetID)
+                    .ToListAsync();
+            }
+            ViewBag.FavoritePetIds = favoritePetIds;
+
+            return View(featuredPets);
         }
 
         public IActionResult About()

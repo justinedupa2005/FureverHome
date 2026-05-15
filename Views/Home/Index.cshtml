@@ -1,3 +1,4 @@
+@model IEnumerable<FureverHome.Models.Pet>
 @{
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -5,7 +6,10 @@
 
 @section Styles {
     <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/pets.css" />
 }
+
+@Html.AntiForgeryToken()
 
 <!-- ===== HERO SECTION ===== -->
 <section class="hero" style="background-image: url('/images/background_home_page.png'); background-size: cover; background-position: center;">
@@ -52,7 +56,7 @@
     <div class="container">
         <div class="stats-grid">
             <div>
-                <div class="stat-number">10</div>
+                <div class="stat-number">@ViewBag.PetCount</div>
                 <div class="stat-label">Pets Listed</div>
             </div>
             <div>
@@ -109,65 +113,55 @@
         </div>
 
         <div class="pets-grid">
-            <div class="pet-listing-card">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐶</div>
-                    <span class="pet-status-badge available">Available</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
-                </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Buddy</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐕 Labrador</span>
-                        <span class="meta-chip">📅 3 yrs</span>
-                        <span class="meta-chip">♂ Male</span>
+            @foreach (var pet in Model)
+            {
+                bool isFavorite = (ViewBag.FavoritePetIds as List<int>)?.Contains(pet.PetID) ?? false;
+                <div class="pet-listing-card">
+                    <div class="pet-img-wrap">
+                        @if (!string.IsNullOrEmpty(pet.ImagePath))
+                        {
+                            <img src="@pet.ImagePath" alt="@pet.PetName" style="width:100%; height:100%; object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <div class="pet-img-placeholder">
+                                @(pet.Species.SpeciesName.ToLower() switch
+                                {
+                                    "dog" => "🐶",
+                                    "cat" => "🐱",
+                                    "rabbit" => "🐰",
+                                    "bird" => "🐦",
+                                    _ => "🐾"
+                                })
+                            </div>
+                        }
+                        <span class="pet-status-badge @pet.AdoptionStatus.StatusName.ToLower()">@pet.AdoptionStatus.StatusName</span>
+                        <button class="pet-save-btn @(isFavorite ? "active" : "")" data-id="@pet.PetID" title="Save to favorites">@(isFavorite ? "❤️" : "❤")</button>
                     </div>
-                    <div class="pet-location">📍 Guadalupe, Cebu City</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/1" class="btn btn-green btn-sm">Learn More</a>
+                    <div class="pet-listing-body">
+                        <div class="pet-listing-name">@pet.PetName</div>
+                        <div class="pet-listing-meta">
+                            <span class="meta-chip">@(pet.Species.SpeciesName.ToLower() == "dog" ? "🐕" : pet.Species.SpeciesName.ToLower() == "cat" ? "🐈" : "🐾") @pet.Breed.BreedName</span>
+                            <span class="meta-chip">📅 @pet.Age</span>
+                            <span class="meta-chip">@(pet.Gender.GenderName.ToLower() == "male" ? "♂" : "♀") @pet.Gender.GenderName</span>
+                        </div>
+                        <div class="pet-location">📍 @(string.IsNullOrEmpty(pet.Address) ? "Cebu City" : pet.Address)</div>
+                        <div class="pet-listing-actions">
+                            <a href="/Pets/Details/@pet.PetID" class="btn btn-green btn-sm">Learn More</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
-            <div class="pet-listing-card">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐱</div>
-                    <span class="pet-status-badge available">Available</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
+            @if (!Model.Any())
+            {
+                <div class="no-pets-message" style="grid-column: 1 / -1; text-align: center; padding: 60px; background: white; border-radius: 20px; box-shadow: var(--shadow-card);">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">🐾</div>
+                    <h3>No pets listed yet.</h3>
+                    <p style="margin-bottom: 30px; color: var(--text-muted);">Be the first to help a pet find its furever home!</p>
+                    <a href="/Dashboard/Create" class="btn btn-green btn-lg">List a Pet Now</a>
                 </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Mochi</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐈 Shorthair</span>
-                        <span class="meta-chip">📅 2 yrs</span>
-                        <span class="meta-chip">♀ Female</span>
-                    </div>
-                    <div class="pet-location">📍 Talamban, Cebu City</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/2" class="btn btn-green btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pet-listing-card">
-                <div class="pet-img-wrap">
-                    <div class="pet-img-placeholder">🐰</div>
-                    <span class="pet-status-badge pending">Pending</span>
-                    <button class="pet-save-btn" title="Save to favorites">❤</button>
-                </div>
-                <div class="pet-listing-body">
-                    <div class="pet-listing-name">Kiwi</div>
-                    <div class="pet-listing-meta">
-                        <span class="meta-chip">🐇 Rabbit</span>
-                        <span class="meta-chip">📅 1 yr</span>
-                        <span class="meta-chip">♂ Male</span>
-                    </div>
-                    <div class="pet-location">📍 Mandaue, Cebu</div>
-                    <div class="pet-listing-actions">
-                        <a href="/Pets/Details/3" class="btn btn-green btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
 
         <div class="view-all-wrap" style="text-align: center; margin-top: 60px;">
@@ -176,6 +170,7 @@
     </div>
 </section>
 
+<!-- rest of sections ... -->
 <section class="adoption-process">
     <div class="container">
         <div class="section-header">
@@ -228,11 +223,32 @@
 
 @section Scripts {
     <script>
+        // Toggle favorite functionality
         document.querySelectorAll('.pet-save-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
-                this.classList.toggle('active');
-                this.innerHTML = this.classList.contains('active') ? '❤️' : '❤';
+                const petId = this.dataset.id;
+                const button = this;
+
+                fetch('/Favorites/Toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: `petId=${petId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        button.classList.toggle('active', data.isFavorite);
+                        button.innerHTML = data.isFavorite ? '❤️' : '❤';
+                    } else {
+                        if (data.message === "User not logged in") {
+                            window.location.href = '/Account/Login';
+                        }
+                    }
+                });
             });
         });
     </script>

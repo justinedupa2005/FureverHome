@@ -107,6 +107,34 @@ namespace FureverHome.Controllers
             return Json(new { success = false, errors = modelErrors });
         }
 
+        // POST: /Account/ResetPassword (Simulated)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return Json(new { success = false, message = "Email not found." });
+                }
+
+                // Generate reset token and reset password directly
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
+
+                if (result.Succeeded)
+                {
+                    return Json(new { success = true, message = "Password updated successfully!" });
+                }
+                
+                var errorMessage = string.Join(" ", result.Errors.Select(e => e.Description));
+                return Json(new { success = false, message = errorMessage });
+            }
+            return Json(new { success = false, message = "Invalid data." });
+        }
+
         // POST: /Account/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]

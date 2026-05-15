@@ -28,7 +28,8 @@ namespace FureverHome.Controllers
             var user = await _context.Users
                 .Include(u => u.AdopterProfile)
                 .Include(u => u.PetOwnerProfile)
-                    .ThenInclude(po => po != null ? po.Pets : null)
+                    .ThenInclude(po => po.Pets)
+                        .ThenInclude(p => p.AdoptionStatus)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null) return NotFound();
@@ -42,7 +43,9 @@ namespace FureverHome.Controllers
                 Address = user.AdopterProfile?.Address ?? "No address on file",
                 // MAP THE PATH TO THE VIEWMODEL
                 ProfilePicturePath = user.AdopterProfile?.ProfilePicturePath,
-                ListingsCount = user.PetOwnerProfile?.Pets.Count ?? 0
+                ListingsCount = user.PetOwnerProfile?.Pets.Count ?? 0,
+                AdoptedCount = user.PetOwnerProfile?.Pets
+                                .Count(p => p.AdoptionStatus.StatusName == "Adopted") ?? 0
             };
 
             return View(model);

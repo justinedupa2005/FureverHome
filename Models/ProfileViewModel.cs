@@ -13,5 +13,6 @@
         public string? ProfilePicturePath { get; set; }
 
         public int ListingsCount { get; set; }
+        public int AdoptedCount { get; set; }
     }
 }

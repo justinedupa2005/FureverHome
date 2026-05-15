@@ -6,6 +6,8 @@
 
 @section Styles {
     <link rel="stylesheet" href="/css/auth.css" />
+    <link rel="stylesheet" href="/css/ContactModal.css" />
+    <link rel="stylesheet" href="/css/ProfilePopupModal.css" />
 }
 
 <div class="auth-page">
@@ -46,7 +48,7 @@
                     <input asp-for="RememberMe" />
                     <span>@Html.DisplayNameFor(m => m.RememberMe)</span>
                 </label>
-                <a href="/Account/ForgotPassword" class="forgot-link">Forgot Password?</a>
+                <a href="javascript:void(0)" onclick="openForgotModal()" class="forgot-link">Forgot Password?</a>
             </div>
 
             <button type="submit" class="btn btn-green auth-btn">Login</button>
@@ -58,7 +60,132 @@
     </div>
 </div>
 
+<!-- Step 1: Email Modal -->
+<div id="forgotModal" class="custom-modal" style="display:none;">
+    <div class="modal-overlay" onclick="closeForgotModal()"></div>
+    <div class="modal-content contact-card-pop">
+        <button class="close-modal" onclick="closeForgotModal()">✕</button>
+        <div class="profile-form-header">
+            <h2>Forgot <span class="text-green">Password</span></h2>
+            <p>Enter your email to reset your password.</p>
+        </div>
+        <div class="form-group" style="margin-top:20px;">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="resetEmail" class="form-control" placeholder="you@example.com" />
+        </div>
+        <div class="profile-actions" style="justify-content:center; margin-top:25px;">
+            <button type="button" class="btn btn-green" onclick="goToPasswordStep()">Send the code ➔</button>
+        </div>
+    </div>
+</div>
+
+<!-- Step 2: New Password Modal -->
+<div id="passwordModal" class="custom-modal" style="display:none;">
+    <div class="modal-overlay" onclick="closePasswordModal()"></div>
+    <div class="modal-content contact-card-pop">
+        <button class="close-modal" onclick="closePasswordModal()">✕</button>
+        <div class="profile-form-header">
+            <h2>New <span class="text-green">Password</span></h2>
+            <p>Create a secure new password.</p>
+        </div>
+        <div class="form-group" style="margin-top:20px;">
+            <label class="form-label">New Password</label>
+            <input type="password" id="newPassword" class="form-control" placeholder="••••••••" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" id="confirmPassword" class="form-control" placeholder="••••••••" />
+        </div>
+        <div class="profile-actions" style="justify-content:center; margin-top:25px;">
+            <button type="button" class="btn btn-green" onclick="saveNewPassword()">Save Password ✓</button>
+        </div>
+    </div>
+</div>
+
+<!-- Step 3: Success Modal -->
+<div id="successModal" class="custom-modal" style="display:none;">
+    <div class="modal-overlay" onclick="closeSuccessModal()"></div>
+    <div class="modal-content contact-card-pop" style="text-align:center;">
+        <button class="close-modal" onclick="closeSuccessModal()">✕</button>
+        <div class="profile-form-header">
+            <div style="font-size: 4rem; margin-bottom: 20px;">✅</div>
+            <h2>Password <span class="text-green">Changed!</span></h2>
+            <p>Your password has been updated successfully. You can now login with your new credentials.</p>
+        </div>
+        <div class="profile-actions" style="justify-content:center; margin-top:25px;">
+            <button type="button" class="btn btn-green" onclick="closeSuccessModal()">Done</button>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/auth-ajax.js"></script>
+    <script>
+        function openForgotModal() {
+            document.getElementById('forgotModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeForgotModal() {
+            document.getElementById('forgotModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        function goToPasswordStep() {
+            const email = document.getElementById('resetEmail').value;
+            if (!email) {
+                alert("Please enter your email.");
+                return;
+            }
+            document.getElementById('forgotModal').style.display = 'none';
+            document.getElementById('passwordModal').style.display = 'flex';
+        }
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        function openSuccessModal() {
+            document.getElementById('successModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Optional: clear form
+            document.getElementById('resetEmail').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+        function saveNewPassword() {
+            const email = document.getElementById('resetEmail').value;
+            const password = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (!password || password.length < 6) {
+                alert("Password must be at least 6 characters.");
+                return;
+            }
+            if (password !== confirm) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            fetch('/Account/ResetPassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ email: email, password: password, confirmPassword: confirm })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    closePasswordModal();
+                    openSuccessModal();
+                } else {
+                    alert(data.message || "An error occurred.");
+                }
+            });
+        }
+    </script>
 }
