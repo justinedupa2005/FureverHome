@@ -218,7 +218,14 @@
 
         <div class="owner-profile-header">
             <div class="owner-avatar-large">
-                <img src="~/images/profile_icon.png" alt="Owner Profile" />
+                @if (!string.IsNullOrEmpty(Model.PetOwner.User.AdopterProfile?.ProfilePicturePath))
+                {
+                    <img src="@Model.PetOwner.User.AdopterProfile.ProfilePicturePath" alt="Owner Profile" />
+                }
+                else
+                {
+                    <img src="~/images/profile_icon.png" alt="Owner Profile" />
+                }
             </div>
             <h2 class="owner-name">@Model.PetOwner.FirstName @Model.PetOwner.LastName</h2>
             <p class="owner-subtitle">Pet Owner / Rescuer</p>
@@ -236,7 +243,7 @@
                 <span class="icon">📍</span>
                 <div>
                     <label>Owner Address</label>
-                    <p>@(string.IsNullOrEmpty(Model.PetOwner.User.FirstName) ? "Address not provided" : Model.Address)</p>
+                    <p>@(string.IsNullOrEmpty(Model.PetOwner.User.AdopterProfile?.Address) ? "Address not provided" : Model.PetOwner.User.AdopterProfile.Address)</p>
                 </div>
             </div>
         </div>

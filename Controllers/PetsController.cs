@@ -43,6 +43,7 @@ namespace FureverHome.Controllers
                 .Include(p => p.AdoptionStatus)
                 .Include(p => p.PetOwner)
                     .ThenInclude(po => po.User)
+                        .ThenInclude(u => u.AdopterProfile)
                 .FirstOrDefaultAsync(p => p.PetID == id);
 
             if (pet == null)

@@ -52,7 +52,11 @@ namespace FureverHome.Controllers
             var userId = _userManager.GetUserId(User);
             if (userId == null) return RedirectToAction("Login", "Account");
 
-            var user = await _context.Users.Include(u => u.AdopterProfile).FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users
+                .Include(u => u.AdopterProfile)
+                .Include(u => u.PetOwnerProfile)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
             if (user == null) return NotFound();
 
             // Email Sync
@@ -68,6 +72,7 @@ namespace FureverHome.Controllers
             user.LastName = model.LastName;
             user.PhoneNumber = model.PhoneNumber;
 
+            // Sync Adopter Profile
             if (user.AdopterProfile == null)
             {
                 user.AdopterProfile = new Adopter
@@ -86,6 +91,14 @@ namespace FureverHome.Controllers
                 user.AdopterProfile.LastName = model.LastName;
                 user.AdopterProfile.Address = model.Address;
                 user.AdopterProfile.PhoneNumber = model.PhoneNumber;
+            }
+
+            // Sync Pet Owner Profile
+            if (user.PetOwnerProfile != null)
+            {
+                user.PetOwnerProfile.FirstName = model.FirstName;
+                user.PetOwnerProfile.LastName = model.LastName;
+                user.PetOwnerProfile.PhoneNumber = model.PhoneNumber;
             }
 
             await _context.SaveChangesAsync();
