@@ -311,6 +311,20 @@ namespace FureverHome.Controllers
             var owner = await _context.PetOwners.FirstOrDefaultAsync(po => po.UserId == user.Id);
             if (owner == null || pet.OwnerID != owner.OwnerID) return Forbid();
 
+            // Manually delete related favorites to avoid constraint conflict
+            var relatedFavorites = await _context.Favorites.Where(f => f.PetID == id).ToListAsync();
+            if (relatedFavorites.Any())
+            {
+                _context.Favorites.RemoveRange(relatedFavorites);
+            }
+
+            // Manually delete related adoptions to avoid constraint conflict
+            var relatedAdoptions = await _context.Adoptions.Where(a => a.PetID == id).ToListAsync();
+            if (relatedAdoptions.Any())
+            {
+                _context.Adoptions.RemoveRange(relatedAdoptions);
+            }
+
             _context.Pets.Remove(pet);
             await _context.SaveChangesAsync();
 

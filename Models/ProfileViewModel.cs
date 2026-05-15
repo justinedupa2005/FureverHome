@@ -11,5 +11,7 @@
 
         // Ensure this property exists to hold the Image URL
         public string? ProfilePicturePath { get; set; }
+
+        public int ListingsCount { get; set; }
     }
 }
