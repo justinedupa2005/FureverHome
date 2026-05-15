@@ -11,6 +11,11 @@
     min-height: 500px;
 }
 
+.hero.hero-logged-in {
+    padding-top: 15px;
+    min-height: 400px;
+}
+
 .hero-inner {
     display: flex;
     align-items: flex-end; /* Changed from center to flex-end to push images down */

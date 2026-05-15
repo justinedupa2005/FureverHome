@@ -1,7 +1,11 @@
+@using FureverHome.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 @model IEnumerable<FureverHome.Models.Pet>
 @{
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = await UserManager.GetUserAsync(User);
 }
 
 @section Styles {
@@ -12,13 +16,20 @@
 @Html.AntiForgeryToken()
 
 <!-- ===== HERO SECTION ===== -->
-<section class="hero" style="background-image: url('/images/background_home_page.png'); background-size: cover; background-position: center;">
+<section class="hero @(User.Identity?.IsAuthenticated == true ? "hero-logged-in" : "")" style="background-image: url('/images/background_home_page.png'); background-size: cover; background-position: center;">
     <div class="container">
         <div class="hero-inner">
             <!-- LEFT: text -->
             <div class="hero-text">
                 <p class="section-eyebrow">Find your perfect companion</p>
-                <h1>Where every <span class="highlight">paw</span><br>finds its furever home.</h1>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <h1>Hello, <span class="highlight">@(user?.FirstName ?? user?.UserName?.Split('@')[0] ?? "User")!</span></h1>
+                }
+                else
+                {
+                    <h1>Where every <span class="highlight">paw</span><br>finds its furever home.</h1>
+                }
                 <p>Connect loving families with pets that need a forever home. Browse hundreds of adoptable animals and give a pet a second chance.</p>
                 <div class="hero-btns">
                     <a href="/Pets" class="btn btn-orange btn-lg">Browse Pets 🐾</a>
